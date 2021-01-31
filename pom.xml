@@ -18,6 +18,8 @@
 		<slf4j.version>1.7.30</slf4j.version>
 		<chromedriver.version>87.0.4280.88</chromedriver.version>
 		<chromedriver.binary>chromedriver</chromedriver.binary>
+		<cucumber.version>6.8.1</cucumber.version>
+		<aspectj.version>1.8.10</aspectj.version>
 	</properties>
 
 	<dependencies>
@@ -38,15 +40,33 @@
 		</dependency>
 
 		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-java8</artifactId>
-			<version>1.2.3</version>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-cucumber6-jvm</artifactId>
+			<version>2.13.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-junit4</artifactId>
+			<version>2.13.8</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -55,12 +75,28 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.1</version>
-				<configuration>
+				<!-- <configuration>
+					<testFailureIgnore>false</testFailureIgnore>
+					<argLine>
+							-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+					</argLine>
 					<systemPropertyVariables>
-						<selenide.browser>chrome</selenide.browser>
-						<webdriver.chrome.driver>${project.build.directory}/${chromedriver.binary}</webdriver.chrome.driver>
+						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
 					</systemPropertyVariables>
-				</configuration>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>io.qameta.allure.junit4.AllureJunit4</value>
+						</property>
+					</properties>
+				</configuration> -->
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
 				<executions>
 					<execution>
 						<id>default-test</id>
@@ -72,18 +108,68 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<rerunFailingTestsCount>1</rerunFailingTestsCount>
+					<systemPropertyVariables>
+						<selenide.browser>chrome</selenide.browser>
+						<selenide.headless>true</selenide.headless>
+						<webdriver.chrome.driver>${project.build.directory}/${chromedriver.binary}</webdriver.chrome.driver>
+						<!-- directory where allure adapter will post test results -->
+						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+						<cucumber.publish.quiet>true</cucumber.publish.quiet>
+					</systemPropertyVariables>
+					<argLine>
+								-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+					</argLine>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.qameta.allure</groupId>
+				<artifactId>allure-maven</artifactId>
+				<version>2.10.0</version>
+				<executions>
+					<execution>
+						<id>generate-allure-report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>download-maven-plugin</artifactId>
 				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<id>install-chrome-driver</id>
-						<phase>generate-test-resources</phase>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>wget</goal>
 						</goals>
 						<configuration>
 							<url>https://chromedriver.storage.googleapis.com/${chromedriver.version}/${chromedriver.filename}</url>
+							<md5>${chromedriver.checksum}</md5>
 							<unpack>true</unpack>
 							<outputDirectory>${project.build.directory}</outputDirectory>
 						</configuration>
@@ -110,7 +196,7 @@
 				<executions>
 					<execution>
 						<id>rename-windows-driver</id>
-						<phase>generate-test-resources</phase>
+						<phase>pre-integration-test</phase>
 						<configuration>
 							<target>
 								<typedef resource="net/sf/antcontrib/antlib.xml">
@@ -142,6 +228,7 @@
 			</activation>
 			<properties>
 				<chromedriver.filename>chromedriver_win32.zip</chromedriver.filename>
+				<chromedriver.checksum>3821c48e3f61ea843dc3545341737854</chromedriver.checksum>
 			</properties>
 		</profile>
 		<profile>
@@ -153,6 +240,7 @@
 			</activation>
 			<properties>
 				<chromedriver.filename>chromedriver_linux64.zip</chromedriver.filename>
+				<chromedriver.checksum>1dd81cad235eb14478543d67c27d351d</chromedriver.checksum>
 			</properties>
 		</profile>
 	</profiles>
