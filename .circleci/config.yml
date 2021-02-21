@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.1.2
 jobs:
-  install:
+  install-chrome:
     executor: browser-tools/default
     steps:
       - browser-tools/install-browser-tools:
@@ -13,3 +13,10 @@ jobs:
     steps:
       - checkout
       - run: mvn verify
+workflows:
+  install_and_test:
+    jobs:
+      - install-chrome
+      - build:
+        requires:
+          - install-chrome
