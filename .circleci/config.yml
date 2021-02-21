@@ -2,12 +2,11 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.1.2
 jobs:
-  test:
+  install:
     executor: browser-tools/default
     steps:
       - browser-tools/install-browser-tools:
           chrome-version: 87.0.4280.88
-jobs:
   build:
     docker:
       - image: cimg/openjdk:8.0-browsers
