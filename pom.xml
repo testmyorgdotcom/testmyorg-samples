@@ -146,6 +146,12 @@
 				<groupId>io.qameta.allure</groupId>
 				<artifactId>allure-maven</artifactId>
 				<version>2.10.0</version>
+				<configuration>
+					<systemPropertyVariables>
+						<!-- directory where allure adapter will post test results -->
+						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+					</systemPropertyVariables>
+				</configuration>
 				<executions>
 					<execution>
 						<id>generate-allure-report</id>
