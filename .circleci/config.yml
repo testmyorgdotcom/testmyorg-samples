@@ -10,3 +10,5 @@ jobs:
           chrome-version: 87.0.4280.88      
       - checkout
       - run: mvn verify
+      - store_artifacts:
+          path: ./target/site/allure-maven-plugin/
