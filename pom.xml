@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.apolya.poc</groupId>
 	<artifactId>samples</artifactId>
 	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<name>samples</name>
 	<!-- FIXME change it to the project's website -->
@@ -16,10 +16,13 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<slf4j.version>1.7.30</slf4j.version>
-		<chromedriver.version>87.0.4280.88</chromedriver.version>
+		<chromedriver.version>88.0.4324.96</chromedriver.version>
 		<chromedriver.binary>chromedriver</chromedriver.binary>
 		<cucumber.version>6.8.1</cucumber.version>
 		<aspectj.version>1.8.10</aspectj.version>
+		<lombok.version>1.18.18</lombok.version>
+		<selenide.version>5.19.0</selenide.version>
+		<webdriver.chrome.driver>${project.build.directory}/${chromedriver.binary}</webdriver.chrome.driver>
 	</properties>
 
 	<dependencies>
@@ -29,6 +32,12 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>${slf4j.version}</version>
@@ -36,7 +45,7 @@
 		<dependency>
 			<groupId>com.codeborne</groupId>
 			<artifactId>selenide</artifactId>
-			<version>4.9.1</version>
+			<version>${selenide.version}</version>
 		</dependency>
 
 		<dependency>
@@ -68,6 +77,11 @@
 			<artifactId>allure-junit4</artifactId>
 			<version>2.13.8</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.force.api</groupId>
+			<artifactId>force-partner-api</artifactId>
+			<version>51.2.0</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -222,6 +236,21 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>download-sources</id>
+						<goals>
+							<goal>sources</goal>
+						</goals>
+						<configuration>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
 		</plugins>
 	</build>
 	<profiles>
@@ -234,7 +263,7 @@
 			</activation>
 			<properties>
 				<chromedriver.filename>chromedriver_win32.zip</chromedriver.filename>
-				<chromedriver.checksum>3821c48e3f61ea843dc3545341737854</chromedriver.checksum>
+				<chromedriver.checksum>9f5e7741994b46b1acca15d779cfe7ad</chromedriver.checksum>
 			</properties>
 		</profile>
 		<profile>
@@ -246,8 +275,11 @@
 			</activation>
 			<properties>
 				<chromedriver.filename>chromedriver_linux64.zip</chromedriver.filename>
-				<chromedriver.checksum>1dd81cad235eb14478543d67c27d351d</chromedriver.checksum>
+				<chromedriver.checksum>40537b052b77c418f05abc1428ecc3c3</chromedriver.checksum>
 			</properties>
 		</profile>
 	</profiles>
+	<modules>
+		<module>core-sf-api</module>
+	</modules>
 </project>
