@@ -1,25 +1,14 @@
 version: 2.1
-
 orbs:
   browser-tools: circleci/browser-tools@1.1.2
-
 jobs:
-  build1:
-    executor: browser-tools/default
-    steps:
-      - browser-tools/install-browser-tools:
-          chrome-version: 87.0.4280.88
-  build2:
+  build:
     docker:
       - image: cimg/openjdk:8.0-browsers
     steps:
+      - browser-tools/install-browser-tools:
+          chrome-version: 87.0.4280.88      
       - checkout
       - run: mvn verify
-
-workflows:
-  install_and_test:
-    jobs:
-      - build1
-      - build2:
-        requires:
-          - build1
+      - store_artifacts:
+          path: ./target/site/allure-maven-plugin/
