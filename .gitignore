@@ -4,7 +4,9 @@
 .settings/
 
 .allure/
+allure-results
 .vscode/
 build/
 
 target/
+.factorypath

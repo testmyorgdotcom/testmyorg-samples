@@ -61,6 +61,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
@@ -83,6 +89,18 @@
 			<artifactId>force-partner-api</artifactId>
 			<version>51.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.3.25.RELEASE</version>
+			<scope>test</scope>
+	 </dependency>
+	 <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.3.25.RELEASE</version>
+			<scope>test</scope>
+	 </dependency>		
 	</dependencies>
 	<build>
 		<plugins>
@@ -246,11 +264,10 @@
 						<goals>
 							<goal>sources</goal>
 						</goals>
-						<configuration>
-						</configuration>
+						<configuration></configuration>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -281,5 +298,6 @@
 	</profiles>
 	<modules>
 		<module>core-sf-api</module>
+		<module>samples-sf</module>
 	</modules>
 </project>

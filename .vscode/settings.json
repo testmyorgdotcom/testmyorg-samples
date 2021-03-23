@@ -1,5 +1,9 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "maven.view": "hierarchical",
-  "java.dependency.packagePresentation": "hierarchical"
-}
+  "java.dependency.packagePresentation": "hierarchical",
+  "cucumberautocomplete.steps": [
+      "**/glue/**/*.java",
+  ],
+  "cucumberautocomplete.strictGherkinCompletion": true
+}  
