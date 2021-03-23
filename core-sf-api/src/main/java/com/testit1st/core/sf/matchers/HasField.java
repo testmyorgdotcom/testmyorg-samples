@@ -4,8 +4,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import java.util.Objects;
 
-import javax.annotation.Nonnull;
-
 import com.sforce.soap.partner.sobject.SObject;
 
 import org.hamcrest.Description;
@@ -13,15 +11,14 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public class HasField extends TypeSafeMatcher<SObject> {
-  @Nonnull
   final String fieldName;
   final Matcher<? extends Object> fieldValueMatcher;
 
   public HasField(final String fieldName, final String fieldValue){
-    this.fieldName = fieldName;
-    this.fieldValueMatcher = equalTo(fieldValue);
+    this(fieldName, equalTo(fieldValue));
   }
   public HasField(final String fieldName, final Matcher<? extends Object> fieldValueMatcher){
+    Objects.requireNonNull(fieldName);
     this.fieldName = fieldName;
     this.fieldValueMatcher = fieldValueMatcher;
   }
