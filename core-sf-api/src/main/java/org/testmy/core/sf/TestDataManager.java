@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.sforce.soap.partner.sobject.SObject;
 
 import org.hamcrest.Matcher;
+import org.testmy.core.sf.matchers.ConstructingMatcher;
 
 public class TestDataManager implements ITestDataManager {
   private List<SObject> sObjects = new LinkedList<>();
@@ -20,9 +21,10 @@ public class TestDataManager implements ITestDataManager {
     sObjects.add(object);
   }
   @Override
-  public SObject getOrCreate(Matcher<SObject> sObjectShape) {
+  public SObject getOrCreate(ConstructingMatcher sObjectShape) {
     return findObject(sObjectShape).orElseGet(() -> {
       final SObject result = new SObject("Type has to be initialized 1st, but can be changed later");
+      sObjectShape.visitForUpdate(result);
       return result;
     });
   }

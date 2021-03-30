@@ -2,6 +2,7 @@ package org.testmy.core.sf;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.testmy.core.sf.matchers.Matchers.hasField;
@@ -13,7 +14,7 @@ import com.sforce.soap.partner.sobject.SObject;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
-import org.testmy.core.sf.matchers.HasField;
+import org.testmy.core.sf.matchers.ConstructingMatcher;
 
 public class TestDataManagerTest {
   final TestDataManager dataManagerUnderTest = new TestDataManager();
@@ -44,10 +45,17 @@ public class TestDataManagerTest {
   @Test
   public void getOrCreate_createsObjectIfNotExists(){
     final String fieldName = "field", fieldValue = "value";
-    final HasField sObjectShape = hasField(fieldName, fieldValue);
+    final ConstructingMatcher sObjectShape = hasField(fieldName, fieldValue);
 
     final SObject sObject = dataManagerUnderTest.getOrCreate(sObjectShape);
     
     assertThat(sObject, is(sObjectShape));
+  }
+  @Test(expected = UnsupportedOperationException.class)
+  public void getOrCreate_doesNotSupportIfConsutrctedThroughMatcher(){
+    final String fieldName = "field", fieldValue = "value";
+    final ConstructingMatcher sObjectShape = hasField(fieldName, is(equalTo(fieldValue)));
+
+    dataManagerUnderTest.getOrCreate(sObjectShape);
   }
 }

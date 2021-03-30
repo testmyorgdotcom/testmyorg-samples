@@ -6,9 +6,10 @@ import java.util.Optional;
 import com.sforce.soap.partner.sobject.SObject;
 
 import org.hamcrest.Matcher;
+import org.testmy.core.sf.matchers.ConstructingMatcher;
 
 public interface ITestDataManager {
-  SObject getOrCreate(Matcher<SObject> sObjectShape);
+  SObject getOrCreate(ConstructingMatcher sObjectShape);
   Optional<SObject> findObject(Matcher<SObject> sObjectShape);
   List<SObject> findObjects(Matcher<SObject> sObjectShape);
 }
