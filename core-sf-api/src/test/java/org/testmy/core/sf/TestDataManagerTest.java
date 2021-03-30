@@ -49,6 +49,15 @@ public class TestDataManagerTest {
 
     final SObject sObject = dataManagerUnderTest.getOrCreate(sObjectShape);
     
+    assertThat(dataManagerUnderTest.getData().contains(sObject), is(true));
+  }
+  @Test
+  public void getOrCreate_storesCreatedObjetInCache(){
+    final String fieldName = "field", fieldValue = "value";
+    final ConstructingMatcher sObjectShape = hasField(fieldName, fieldValue);
+
+    final SObject sObject = dataManagerUnderTest.getOrCreate(sObjectShape);
+    
     assertThat(sObject, is(sObjectShape));
   }
   @Test(expected = UnsupportedOperationException.class)

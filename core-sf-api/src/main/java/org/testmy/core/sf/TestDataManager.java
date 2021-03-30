@@ -24,6 +24,7 @@ public class TestDataManager implements ITestDataManager {
   public SObject getOrCreate(ConstructingMatcher sObjectShape) {
     return findObject(sObjectShape).orElseGet(() -> {
       final SObject result = new SObject("Type has to be initialized 1st, but can be changed later");
+      addToCache(result);
       sObjectShape.visitForUpdate(result);
       return result;
     });
