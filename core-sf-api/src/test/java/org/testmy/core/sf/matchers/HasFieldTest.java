@@ -1,8 +1,8 @@
-package com.testit1st.core.sf.matchers;
+package org.testmy.core.sf.matchers;
 
-import static com.testit1st.core.sf.matchers.Matchers.hasField;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.testmy.core.sf.matchers.Matchers.hasField;
 
 import com.sforce.soap.partner.sobject.SObject;
 

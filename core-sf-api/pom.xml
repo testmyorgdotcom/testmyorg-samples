@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>samples</artifactId>
-    <groupId>com.apolya.poc</groupId>
+    <groupId>org.testmy</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.testit1st.core</groupId>
+  <groupId>org.testmy</groupId>
   <artifactId>core-sf-api</artifactId>
   <version>1.0-SNAPSHOT</version>
 

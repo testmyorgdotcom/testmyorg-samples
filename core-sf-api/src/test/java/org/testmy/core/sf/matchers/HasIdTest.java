@@ -1,7 +1,7 @@
-package com.testit1st.core.sf.matchers;
+package org.testmy.core.sf.matchers;
 
-import static com.testit1st.core.sf.matchers.Matchers.hasId;
 import static org.junit.Assert.assertThat;
+import static org.testmy.core.sf.matchers.Matchers.hasId;
 
 import com.sforce.soap.partner.sobject.SObject;
 

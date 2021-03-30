@@ -1,4 +1,4 @@
-package com.testit1st.core.sf.matchers;
+package org.testmy.core.sf;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -10,7 +10,7 @@ import com.sforce.soap.partner.sobject.SObject;
 
 import org.hamcrest.Matcher;
 
-public class DataManager implements IDataManager {
+public class TestDataManager implements ITestDataManager {
   private List<SObject> sObjects = new LinkedList<>();
 
   public List<SObject> getData() {
@@ -20,7 +20,14 @@ public class DataManager implements IDataManager {
     sObjects.add(object);
   }
   @Override
-  public Optional<SObject> ensureSObject(Matcher<SObject> sObjectShape) {
+  public SObject getOrCreate(Matcher<SObject> sObjectShape) {
+    return findObject(sObjectShape).orElseGet(() -> {
+      final SObject result = new SObject("Type has to be initialized 1st, but can be changed later");
+      return result;
+    });
+  }
+  @Override
+  public Optional<SObject> findObject(Matcher<SObject> sObjectShape) {
     return sObjects.stream().filter(sObjectShape::matches).findFirst();
   }
   @Override
