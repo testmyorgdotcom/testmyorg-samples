@@ -7,7 +7,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-  features = "classpath:/",
+  features = "src/test/resources",
   glue = "org.testmy.core.sf.glue",
   plugin = {
     "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"

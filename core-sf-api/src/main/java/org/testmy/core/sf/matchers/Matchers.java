@@ -21,4 +21,8 @@ public class Matchers {
   public static HasField hasName(final String name){
     return new HasField("Name", name);
   }
+  public static HasFields ofShape(HasField ...matchers){
+    boolean res = matchers.length > 0;
+    return res ? null : null;
+  }
 }

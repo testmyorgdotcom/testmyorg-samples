@@ -22,7 +22,6 @@ public class SfApi {
 			config.setPassword(password);
 
 			config.setAuthEndpoint(authEndPoint);
-			config.setTraceFile("traceLogs.txt");
 			config.setTraceMessage(true);
 			config.setPrettyPrintXml(true);
 

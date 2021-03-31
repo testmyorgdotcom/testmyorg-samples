@@ -4,5 +4,8 @@ import com.sforce.soap.partner.sobject.SObject;
 
 import org.hamcrest.core.AllOf;
 
-public class HasFields extends AllOf<SObject> {
+public class HasFields extends AllOf<SObject> implements ConstructingMatcher {
+  @Override
+  public void visitForUpdate(SObject result) {
+  }
 }

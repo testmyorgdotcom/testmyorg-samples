@@ -1,29 +1,33 @@
 package org.testmy.core.sf.glue;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.testmy.core.sf.matchers.Matchers.client;
 import static org.testmy.core.sf.matchers.Matchers.hasId;
 import static org.testmy.core.sf.matchers.Matchers.hasName;
+import static org.testmy.core.sf.matchers.Matchers.ofShape;
 
 import com.sforce.soap.partner.sobject.SObject;
 
-import org.hamcrest.Matcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.testmy.core.sf.TestDataManager;
+import org.testmy.core.sf.config.CucumberSpringConfiguration;
+import org.testmy.core.sf.matchers.ConstructingMatcher;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.spring.CucumberContextConfiguration;
 
+@CucumberContextConfiguration
+@ContextConfiguration(classes = CucumberSpringConfiguration.class)
 public class ApiSteps {
   @Autowired
   TestDataManager dataManager;
   
-  @Given("(.+) is our (.+)")
+  @Given("^(.+) is our (.+)$")
   public void is_our_client(final String clientName, final String objectType) {
-    final Matcher<SObject> sObjectShape = allOf(
-      is(client()),
+    final ConstructingMatcher sObjectShape = ofShape(
+      client(),
       hasName(clientName)
     );
     final SObject createdClient = dataManager.getOrCreate(sObjectShape);
