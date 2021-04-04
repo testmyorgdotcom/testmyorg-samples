@@ -9,4 +9,4 @@ allure-results
 build/
 
 target/
-.factorypath
+/**/.factorypath

@@ -8,24 +8,43 @@
 	<packaging>pom</packaging>
 
 	<name>samples</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<slf4j.version>1.7.30</slf4j.version>
-		<chromedriver.version>88.0.4324.96</chromedriver.version>
+		<chromedriver.version>89.0.4389.23</chromedriver.version>
 		<chromedriver.binary>chromedriver</chromedriver.binary>
 		<cucumber.version>6.8.1</cucumber.version>
 		<aspectj.version>1.8.10</aspectj.version>
 		<lombok.version>1.18.18</lombok.version>
-		<selenide.version>5.19.0</selenide.version>
+		<serenity.version>2.4.1</serenity.version>
 		<webdriver.chrome.driver>${project.build.directory}/${chromedriver.binary}</webdriver.chrome.driver>
 	</properties>
 
+	<modules>
+		<module>core</module>
+		<module>samples-sf</module>
+		<module>mission</module>
+	</modules>
+
 	<dependencies>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-junit</artifactId>
+			<version>${serenity.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-screenplay</artifactId>
+			<version>${serenity.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-screenplay-webdriver</artifactId>
+			<version>${serenity.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -43,45 +62,9 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.codeborne</groupId>
-			<artifactId>selenide</artifactId>
-			<version>${selenide.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-java</artifactId>
-			<version>${cucumber.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-junit</artifactId>
-			<version>${cucumber.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.cucumber</groupId>
-			<artifactId>cucumber-spring</artifactId>
-			<version>${cucumber.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.qameta.allure</groupId>
-			<artifactId>allure-cucumber6-jvm</artifactId>
-			<version>2.13.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.qameta.allure</groupId>
-			<artifactId>allure-junit4</artifactId>
-			<version>2.13.8</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -89,18 +72,6 @@
 			<artifactId>force-partner-api</artifactId>
 			<version>51.2.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>4.3.25.RELEASE</version>
-			<scope>test</scope>
-	 </dependency>
-	 <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>4.3.25.RELEASE</version>
-			<scope>test</scope>
-	 </dependency>		
 	</dependencies>
 	<build>
 		<plugins>
@@ -175,26 +146,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>io.qameta.allure</groupId>
-				<artifactId>allure-maven</artifactId>
-				<version>2.10.0</version>
-				<configuration>
-					<systemPropertyVariables>
-						<!-- directory where allure adapter will post test results -->
-						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-					</systemPropertyVariables>
-				</configuration>
-				<executions>
-					<execution>
-						<id>generate-allure-report</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>download-maven-plugin</artifactId>
 				<version>1.6.0</version>
@@ -258,15 +209,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.1.1</version>
-				<executions>
+				<!-- <executions>
 					<execution>
 						<id>download-sources</id>
 						<goals>
 							<goal>sources</goal>
 						</goals>
-						<configuration></configuration>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 		</plugins>
 	</build>
@@ -280,7 +230,7 @@
 			</activation>
 			<properties>
 				<chromedriver.filename>chromedriver_win32.zip</chromedriver.filename>
-				<chromedriver.checksum>9f5e7741994b46b1acca15d779cfe7ad</chromedriver.checksum>
+				<chromedriver.checksum>0bf4bc39f34cee67f5f95afd8a24c191</chromedriver.checksum>
 			</properties>
 		</profile>
 		<profile>
@@ -292,12 +242,8 @@
 			</activation>
 			<properties>
 				<chromedriver.filename>chromedriver_linux64.zip</chromedriver.filename>
-				<chromedriver.checksum>40537b052b77c418f05abc1428ecc3c3</chromedriver.checksum>
+				<chromedriver.checksum>24686a3cc3ccf8cbc60cf744baa47692</chromedriver.checksum>
 			</properties>
 		</profile>
 	</profiles>
-	<modules>
-		<module>core-sf-api</module>
-		<module>samples-sf</module>
-	</modules>
 </project>

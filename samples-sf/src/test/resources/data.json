@@ -1,0 +1,73 @@
+{
+    "status": 0,
+    "result": {
+      "done": true,
+      "totalSize": 8,
+      "records": [
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000001FyrlAAC"
+          },
+          "Id": "00509000001FyrlAAC",
+          "Username": "java.rabota@wise-fox-itwoos.com"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000004js0HAAQ"
+          },
+          "Id": "00509000004js0HAAQ",
+          "Username": "integration@00d09000007s8s6eak.com"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000004js0IAAQ"
+          },
+          "Id": "00509000004js0IAAQ",
+          "Username": "autoproc@00d09000007s8s6eak"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000004js0OAAQ"
+          },
+          "Id": "00509000004js0OAAQ",
+          "Username": "cloud@00d09000007s8s6eak"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000004js0PAAQ"
+          },
+          "Id": "00509000004js0PAAQ",
+          "Username": "insightssecurity@00d09000007s8s6eak.com"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000004js0QAAQ"
+          },
+          "Id": "00509000004js0QAAQ",
+          "Username": "chatty.00d09000007s8s6eak.heg3bmzu3gqq@chatter.salesforce.com"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000001Fz57AAC"
+          },
+          "Id": "00509000001Fz57AAC",
+          "Username": "abalewa@ab031321.db.com"
+        },
+        {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v51.0/sobjects/User/00509000001Fz5RAAS"
+          },
+          "Id": "00509000001Fz5RAAS",
+          "Username": "stashi@031321.db.com"
+        }
+      ]
+    }
+  }
