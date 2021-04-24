@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.annotation.concurrent.NotThreadSafe;
+
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
@@ -16,6 +18,7 @@ import com.typesafe.config.ConfigFactory;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NotThreadSafe
 public class PersonaManager {
     private List<Persona> personas = new ArrayList<>();
     private Map<String, List<Persona>> actorsPersonas = new HashMap<>();
@@ -34,8 +37,13 @@ public class PersonaManager {
         return Collections.unmodifiableList(personas);
     }
 
-    public void addPersona(final Persona persona) {
+    void addPersona(final Persona persona) {
         this.personas.add(persona);
+    }
+
+    public void tearDown(String actorName, Persona reservedPersona) {
+        actorsPersonas.get(actorName).remove(reservedPersona);
+        reservedPersonas.remove(reservedPersona);
     }
 
     private Persona reservePersona(final Predicate<Persona> criteria) {

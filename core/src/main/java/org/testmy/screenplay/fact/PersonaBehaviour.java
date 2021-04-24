@@ -18,13 +18,19 @@ public class PersonaBehaviour implements Fact{
     private String persona;
 
     public static PersonaBehaviour of(String persona) {
-        System.out.println(personaManager);
         return new PersonaBehaviour(persona);
     }
 
     @Override
     public void setup(final Actor actor) {
         actorsFacts.put(actor, persona);
+    }
+
+    @Override
+    public void teardown(final Actor actor) {
+        final Persona reservedPersona = of(actor);
+        actorsFacts.remove(actor);
+        personaManager.tearDown(actor.getName(), reservedPersona);
     }
 
     public static Persona of(Actor actor) {

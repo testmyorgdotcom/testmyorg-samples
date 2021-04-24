@@ -82,4 +82,16 @@ public class PersonaManagerTest {
 
         assertThat(persona, hasProperty("name", equalTo(personaName)));
     }
+
+    @Test
+    public void returnsBackPersonasForReUse(){
+        final Persona expectedPersona = new Persona();
+        managerUnderTest.addPersona(expectedPersona);
+
+        Persona reservedPersona = managerUnderTest.reservePersonaFor("1st actor");
+        managerUnderTest.tearDown("1st actor", reservedPersona);
+        reservedPersona = managerUnderTest.reservePersonaFor("2nd actor");
+
+        assertThat(reservedPersona, is(expectedPersona));
+    }
 }
