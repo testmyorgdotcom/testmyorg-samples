@@ -1,9 +1,10 @@
 {
-  "java.configuration.updateBuildConfiguration": "automatic",
   "maven.view": "hierarchical",
   "java.dependency.packagePresentation": "hierarchical",
   "cucumberautocomplete.steps": [
       "**/glue/**/*.java",
   ],
-  "cucumberautocomplete.strictGherkinCompletion": true
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "todo-tree.tree.showBadges": false,
+  "todo-tree.tree.disableCompactFolders": true
 }  
