@@ -23,16 +23,19 @@ public class PersonaManager {
     private List<Persona> personas = new ArrayList<>();
     private Map<String, List<Persona>> actorsPersonas = new HashMap<>();
     private Set<Persona> reservedPersonas = new HashSet<>();
-    
-    public PersonaManager(){
+
+    public PersonaManager() {
         final Config config = ConfigFactory.load();
         this.personas = ConfigBeanFactory.create(config, PersonaList.class).personas;
     }
-    //TODO: change approach to avoud such constructor, read more about typesage config
-    public PersonaManager(final String configFile){
+
+    // TODO: change approach to avoud such constructor, read more about typesage
+    // config
+    public PersonaManager(final String configFile) {
         final Config config = ConfigFactory.load(configFile);
         this.personas = ConfigBeanFactory.create(config, PersonaList.class).personas;
     }
+
     public List<Persona> getAllPersonas() {
         return Collections.unmodifiableList(personas);
     }
@@ -41,16 +44,17 @@ public class PersonaManager {
         this.personas.add(persona);
     }
 
-    public void tearDown(String actorName, Persona reservedPersona) {
+    public void tearDown(String actorName,
+            Persona reservedPersona) {
         actorsPersonas.get(actorName).remove(reservedPersona);
         reservedPersonas.remove(reservedPersona);
     }
 
     private Persona reservePersona(final Predicate<Persona> criteria) {
         final Persona result = personas.stream()
-            .filter(p -> !reservedPersonas.contains(p) && criteria.test(p))
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No free personas")); //TODO: better description
+                .filter(p -> !reservedPersonas.contains(p) && criteria.test(p))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No free personas")); // TODO: better description
         reservedPersonas.add(result);
         return result;
     }
@@ -58,25 +62,30 @@ public class PersonaManager {
     public Persona reservePersonaFor(final String actorName) {
         return reservePersonaFor(actorName, p -> true);
     }
-    public Persona reservePersonaFor(final String actorName, final String personaName) {
+
+    public Persona reservePersonaFor(final String actorName,
+            final String personaName) {
         return reservePersonaFor(actorName, p -> p.getName().equals(personaName));
     }
-    public Persona reservePersonaFor(final String actorName, final Predicate<Persona> criteria) {
+
+    public Persona reservePersonaFor(final String actorName,
+            final Predicate<Persona> criteria) {
         final List<Persona> actorPersonas = actorsPersonas.computeIfAbsent(actorName, actor -> new ArrayList<>());
         final Persona result = actorPersonas
-            .stream()
-            .filter(criteria)
-            .findFirst()
-            .orElseGet(() -> {
-                final Persona tempVariableForPersona = reservePersona(criteria);
-                actorPersonas.add(tempVariableForPersona);
-                return tempVariableForPersona;
-            });
+                .stream()
+                .filter(criteria)
+                .findFirst()
+                .orElseGet(() -> {
+                    final Persona tempVariableForPersona = reservePersona(criteria);
+                    actorPersonas.add(tempVariableForPersona);
+                    return tempVariableForPersona;
+                });
         return result;
     }
+
     @NoArgsConstructor
     @Data
-    protected static class PersonaList{
+    protected static class PersonaList {
         private List<Persona> personas;
     }
 }

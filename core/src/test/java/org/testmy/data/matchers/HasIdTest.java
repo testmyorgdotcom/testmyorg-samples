@@ -8,12 +8,12 @@ import com.sforce.soap.partner.sobject.SObject;
 import org.junit.Test;
 
 public class HasIdTest {
-  @Test
-  public void matchIfWithId(){
-    final String sfId = "005xyz...";
-    final SObject sobject = new SObject();
-    sobject.setId(sfId);
+    @Test
+    public void matchIfWithId() {
+        final String sfId = "005xyz...";
+        final SObject sobject = new SObject();
+        sobject.setId(sfId);
 
-    assertThat(sobject, hasId());
-  }
+        assertThat(sobject, hasId());
+    }
 }

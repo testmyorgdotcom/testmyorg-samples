@@ -13,7 +13,7 @@ import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.thucydides.core.annotations.Shared;
 
-public class StoreObjectAtScene implements Performable{
+public class StoreObjectAtScene implements Performable {
     @Shared
     private TestDataManager testDataManager;
 
@@ -28,8 +28,7 @@ public class StoreObjectAtScene implements Performable{
         final String id = URLParser.parseObjectId(currentObjectUrl);
         final String type = URLParser.parseObjectType(currentObjectUrl);
         testDataManager.cacheExistingShape(ofShape(
-            hasId(id),
-            hasField("type", type)
-        ));
+                hasId(id),
+                hasField("type", type)));
     }
 }

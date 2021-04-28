@@ -31,26 +31,27 @@ public class LoginTest {
     WebDriver browser;
 
     @Test
-    public void authenticateViaLoginForm(){
+    public void authenticateViaLoginForm() {
         final Actor mike = Actor.named("Mike");
         mike.has(PersonaBehaviour.of("Admin"));
 
         givenThat(mike)
-            .can(Authenticate.withCredentials())
-            .can(BrowseTheWeb.with(browser));
+                .can(Authenticate.withCredentials())
+                .can(BrowseTheWeb.with(browser));
 
         when(mike).attemptsTo(Login.viaUI());
 
         then(mike).should(seeThat(TheWebPage.title(), allOf(containsString("Home"), containsString("Salesforce"))));
     }
+
     @Test
-    public void authenticateViaAPI(){
+    public void authenticateViaAPI() {
         final Actor mike = Actor.named("Mike");
         mike.has(PersonaBehaviour.of("Admin"));
 
         givenThat(mike)
-            .can(Authenticate.withCredentials())
-            .can(CallPartnerSoapApi.ofVersion("51"));
+                .can(Authenticate.withCredentials())
+                .can(CallPartnerSoapApi.ofVersion("51"));
 
         when(mike).attemptsTo(Login.viaSoapApi());
 
@@ -58,21 +59,21 @@ public class LoginTest {
     }
 
     @Test
-    public void useApiTokenInWebFlow(){
+    public void useApiTokenInWebFlow() {
         final Actor mike = Actor.named("Mike");
         mike.has(PersonaBehaviour.of("Admin"));
 
         givenThat(mike)
-            .can(Authenticate.withCredentials())
-            .can(CallPartnerSoapApi.ofVersion("51"))
-            .can(BrowseTheWeb.with(browser))
-            .wasAbleTo(Login.viaSoapApi());
-        
+                .can(Authenticate.withCredentials())
+                .can(CallPartnerSoapApi.ofVersion("51"))
+                .can(BrowseTheWeb.with(browser))
+                .wasAbleTo(Login.viaSoapApi());
+
         when(mike).attemptsTo(
-            AddToken.asCookieAndOpenUrl()
-        );
+                AddToken.asCookieAndOpenUrl());
 
         then(mike).should(seeThat(TheWebPage.title(), allOf(containsString("Home"), containsString("Salesforce"))));
     }
-    // TODO: support login as - too difficult, looks like need to hardcode url or do via UI actions Low Priority for now
+    // TODO: support login as - too difficult, looks like need to hardcode url or do
+    // via UI actions Low Priority for now
 }

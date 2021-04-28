@@ -14,8 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class CredentialsProviderIT {
     @Autowired
     CredentialsProvider credProvider;
+
     @Test
-    public void useCacheToSearchForData(){
+    public void useCacheToSearchForData() {
         credProvider.loadCredentials("", Optional.empty());
     }
 }

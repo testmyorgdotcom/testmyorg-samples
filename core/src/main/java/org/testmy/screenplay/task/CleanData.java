@@ -15,7 +15,7 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
 import net.thucydides.core.annotations.Shared;
 
-public class CleanData implements Performable{
+public class CleanData implements Performable {
     @Shared
     private TestDataManager testDataManager;
 
@@ -27,20 +27,23 @@ public class CleanData implements Performable{
     public <T extends Actor> void performAs(T actor) {
         final PartnerConnection connection = CallPartnerSoapApi.as(actor).getConnection();
         final String[] ids = testDataManager.getData()
-            .stream()
-            .map(s -> s.getId())
-            .collect(Collectors.toList())
-            .toArray(new String[0]);
+                .stream()
+                .map(s -> s.getId())
+                .collect(Collectors.toList())
+                .toArray(new String[0]);
+
         try {
             System.out.println("Going to delete: " + Arrays.asList(ids));
             final DeleteResult[] deleteResults = connection.delete(ids);
             final List<DeleteResult> nonDeletedObjects = Arrays.asList(deleteResults).stream()
-                .filter(dr -> !dr.getSuccess())
-                .collect(Collectors.toList());
-            if(!nonDeletedObjects.isEmpty()){
-                System.err.println("Could not delete: " + nonDeletedObjects); //TODO: move to loggers
+                    .filter(dr -> !dr.getSuccess())
+                    .collect(Collectors.toList());
+
+            if (!nonDeletedObjects.isEmpty()) {
+                System.err.println("Could not delete: " + nonDeletedObjects); // TODO: move to loggers
             }
-        } catch (ConnectionException e) {
+        }
+        catch (ConnectionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

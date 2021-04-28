@@ -14,7 +14,7 @@ import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 
-public class LoginWith implements Task{
+public class LoginWith implements Task {
 
     public static LoginWith sessionId() {
         return new LoginWith();
@@ -27,15 +27,13 @@ public class LoginWith implements Task{
         url = url.substring(0, url.indexOf("/services/"));
         System.out.println("URL >>> " + url);
         actor.attemptsTo(Open.url(url));
-        //TODO: task to add cookie
+        // TODO: task to add cookie
         BrowseTheWeb.as(actor).getDriver().manage().addCookie(
-            new Cookie(
-                "sid",
-                config.getSessionId())
-        );
+                new Cookie(
+                        "sid",
+                        config.getSessionId()));
         actor.attemptsTo(
-            Open.url(url),
-            WaitUntil.the(WebPage.loadingLogo(), isNotVisible())
-        );
+                Open.url(url),
+                WaitUntil.the(WebPage.loadingLogo(), isNotVisible()));
     }
 }

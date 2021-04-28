@@ -23,15 +23,17 @@ public class AddToken implements Performable {
     public <T extends Actor> void performAs(T actor) {
         final ConnectorConfig config = actor.abilityTo(CallPartnerSoapApi.class).getConfig();
         final String urlEndpoint = config.getServiceEndpoint();
+
         try {
             final URL url = new URL(urlEndpoint.substring(0, urlEndpoint.indexOf("/services/")));
             BrowseTheWeb.as(actor).getDriver().get(url.toString());
             final Cookie sessionCookie = new Cookie.Builder("sid", config.getSessionId())
-                .domain(url.getHost())
-                .build();
+                    .domain(url.getHost())
+                    .build();
             BrowseTheWeb.as(actor).getDriver().manage().addCookie(sessionCookie);
             BrowseTheWeb.as(actor).getDriver().get(url.toString());
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

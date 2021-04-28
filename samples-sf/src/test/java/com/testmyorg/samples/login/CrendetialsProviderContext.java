@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CrendetialsProviderContext {
     @Bean
-    CredentialsProvider credentialsProvider(){
+    CredentialsProvider credentialsProvider() {
         return new CredentialsProvider();
     }
 }

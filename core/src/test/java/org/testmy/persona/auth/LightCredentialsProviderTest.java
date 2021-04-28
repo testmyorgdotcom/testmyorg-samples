@@ -11,7 +11,7 @@ import org.testmy.persona.PersonaManager;
 
 public class LightCredentialsProviderTest {
     @Test
-    public void testGetCredentialsFromDefaultFile(){
+    public void testGetCredentialsFromDefaultFile() {
         final String testProperty = "dummyProperty";
         final String testPassword = "dummyPassword";
         LightCredentialsProvider.passwordPropertyName = testProperty;

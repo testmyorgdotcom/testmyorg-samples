@@ -11,7 +11,7 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.facts.Fact;
 
 @AllArgsConstructor
-public class PersonaBehaviour implements Fact{
+public class PersonaBehaviour implements Fact {
     private static Map<Actor, String> actorsFacts = new ConcurrentHashMap<>();
     private static PersonaManager personaManager = new PersonaManager();
 
@@ -34,7 +34,8 @@ public class PersonaBehaviour implements Fact{
     }
 
     public static Persona of(Actor actor) {
-        if(!actorsFacts.containsKey(actor)){
+
+        if (!actorsFacts.containsKey(actor)) {
             throw new IllegalArgumentException("Actor does not have Persona fact"); // TODO: add a better description
         }
         final String persona = actorsFacts.get(actor);

@@ -26,28 +26,28 @@ import org.testmy.data.TestDataManager;
 import net.serenitybdd.screenplay.Actor;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CreateDataTest{
+public class CreateDataTest {
     @Mock
     private Function<SObject[], SaveResult[]> storeFunction;
     private TestDataManager testDataManager = new TestDataManager();
 
     @Before
-    public void before(){
+    public void before() {
         final SaveResult saveResult = new SaveResult();
         saveResult.setId("003XYZ...");
-        when(storeFunction.apply(any())).thenReturn(new SaveResult[]{saveResult});
+        when(storeFunction.apply(any())).thenReturn(new SaveResult[] {
+                saveResult
+        });
     }
 
     @Test
-    public void testPerform(){
+    public void testPerform() {
         final Actor mike = Actor.named("Mike");
 
         when(mike).attemptsTo(
-            CreateData.record(ofShape(
-                account(),
-                hasName("accountName")
-            )).withStoreFunction(storeFunction).withTestDataManager(testDataManager)
-        );
+                CreateData.record(ofShape(
+                        account(),
+                        hasName("accountName"))).withStoreFunction(storeFunction).withTestDataManager(testDataManager));
 
         final List<SObject> testData = testDataManager.getData();
         assertThat(testData, hasSize(1));

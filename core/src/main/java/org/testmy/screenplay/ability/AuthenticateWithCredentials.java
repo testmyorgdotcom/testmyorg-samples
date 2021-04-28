@@ -9,7 +9,7 @@ import lombok.Getter;
 import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
 
-public class AuthenticateWithCredentials implements Ability { //, RefersToActor
+public class AuthenticateWithCredentials implements Ability { // , RefersToActor
     // private Actor actor;
     // @Autowired
     LightCredentialsProvider credentialsProvider;
@@ -19,8 +19,9 @@ public class AuthenticateWithCredentials implements Ability { //, RefersToActor
     private String password;
 
     public static AuthenticateWithCredentials as(final Actor actor) {
+
         if (actor.abilityTo(AuthenticateWithCredentials.class) == null) {
-            //TODO: add dedicated exception
+            // TODO: add dedicated exception
             throw new IllegalArgumentException("Actor with name does not have this ability: " + actor.getName());
         }
         final AuthenticateWithCredentials result = actor.abilityTo(AuthenticateWithCredentials.class);

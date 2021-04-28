@@ -32,7 +32,9 @@ public class TestDataManager implements ITestDataManager {
             final Function<SObject[], SaveResult[]> storeFunction) {
         return findObject(sObjectShape).orElseGet(() -> {
             final SObject result = constructSObject(sObjectShape);
-            final SaveResult[] saveResults = storeFunction.apply(new SObject[] { result });
+            final SaveResult[] saveResults = storeFunction.apply(new SObject[] {
+                    result
+            });
             result.setId(saveResults[0].getId());
             addToCache(result);
             return result;
@@ -57,7 +59,8 @@ public class TestDataManager implements ITestDataManager {
 
     public void cacheExistingShape(final ConstructingMatcher ofShape) {
         final SObject sObject = constructSObject(ofShape);
-        if(!hasId().matches(sObject)){
+
+        if (!hasId().matches(sObject)) {
             throw new IllegalArgumentException("Cannot add objects without Id: " + sObject);
         }
         addToCache(sObject);

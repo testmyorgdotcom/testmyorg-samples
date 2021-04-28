@@ -16,7 +16,7 @@ import org.testmy.data.query.SoqlComponent;
 
 import lombok.Getter;
 
-public class HasField extends TypeSafeMatcher<SObject> implements ConstructingMatcher{
+public class HasField extends TypeSafeMatcher<SObject> implements ConstructingMatcher {
     @Getter
     private String fieldName;
     private Matcher<? extends Object> fieldValueMatcher;
@@ -28,13 +28,15 @@ public class HasField extends TypeSafeMatcher<SObject> implements ConstructingMa
         throw new UnsupportedOperationException("cannot update SObject if based on constructor with matcher");
     };
 
-    public HasField(final String fieldName, final String fieldValue) {
+    public HasField(final String fieldName,
+            final String fieldValue) {
         this(fieldName, is(equalTo(fieldValue)));
         constructLogic = sObj -> sObj.setField(fieldName, fieldValue);
         soqlComponent = () -> new SoqlComponent(fieldName, fieldValue);
     }
 
-    public HasField(final String fieldName, final Matcher<? extends Object> fieldvalueMatcher) {
+    public HasField(final String fieldName,
+            final Matcher<? extends Object> fieldvalueMatcher) {
         Objects.requireNonNull(fieldName);
         this.fieldName = fieldName;
         this.fieldValueMatcher = fieldvalueMatcher;

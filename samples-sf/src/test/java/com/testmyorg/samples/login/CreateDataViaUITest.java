@@ -36,41 +36,39 @@ public class CreateDataViaUITest {
     WebDriver browser;
 
     private Actor admin = Actor.named("Adnim");
+
     @Before
-    public void before(){
+    public void before() {
         admin.has(PersonaBehaviour.of("Admin"));
         admin
-            .can(Authenticate.withCredentials())
-            .can(CallPartnerSoapApi.ofVersion("51"))
-            .can(BrowseTheWeb.with(browser))
-            .wasAbleTo(Login.viaUI());
+                .can(Authenticate.withCredentials())
+                .can(CallPartnerSoapApi.ofVersion("51"))
+                .can(BrowseTheWeb.with(browser))
+                .wasAbleTo(Login.viaUI());
         admin.wasAbleTo(Login.viaSoapApi());
     }
+
     @After
-    public void after(){
+    public void after() {
         admin.attemptsTo(CleanData.afterTest());
     }
+
     @Test
-    public void addNewContactToExistingAccount(){
+    public void addNewContactToExistingAccount() {
         final String accountName = "Serenity Test";
         givenThat(admin).wasAbleTo(CreateData.record(ofShape(
-            account(),
-            hasName(accountName)
-        )));
+                account(),
+                hasName(accountName))));
 
         admin.attemptsTo(
-            SearchForAccount.witnName(accountName),
-            CreateContact.withLastName("Panda")
-        );
+                SearchForAccount.witnName(accountName),
+                CreateContact.withLastName("Panda"));
 
         then(admin).should(seeThat(
-            QueryData.similarTo(
-                ofShape(
-                    contact(),
-                    hasField("Account.Name", accountName)
-                )
-            ),
-            hasId()
-        ));
+                QueryData.similarTo(
+                        ofShape(
+                                contact(),
+                                hasField("Account.Name", accountName))),
+                hasId()));
     }
 }

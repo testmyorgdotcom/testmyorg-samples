@@ -14,7 +14,7 @@ import net.serenitybdd.screenplay.actions.SendKeys;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 
 @AllArgsConstructor
-public class NavigateToAccount implements Task{
+public class NavigateToAccount implements Task {
     private String accountName;
 
     public static Task called(String accountName) {
@@ -24,10 +24,9 @@ public class NavigateToAccount implements Task{
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-            Click.on(AppLauncher.icon()),
-            SendKeys.of("accounts").into(AppLauncher.searchInput()),
-            WaitUntil.the(AppLauncher.itemCalled("Accounts"), isVisible()),
-            JavaScriptClick.on(AppLauncher.itemCalled("Accounts"))
-        );
+                Click.on(AppLauncher.icon()),
+                SendKeys.of("accounts").into(AppLauncher.searchInput()),
+                WaitUntil.the(AppLauncher.itemCalled("Accounts"), isVisible()),
+                JavaScriptClick.on(AppLauncher.itemCalled("Accounts")));
     }
 }

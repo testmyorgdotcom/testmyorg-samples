@@ -19,8 +19,7 @@ import net.thucydides.core.annotations.Step;
 public class LoginViaUI implements Task {
     private LoginPage loginPage;
 
-    public LoginViaUI() {
-    }
+    public LoginViaUI() {}
 
     public static Login viaUI() {
         return Instrumented.instanceOf(Login.class).newInstance();
@@ -31,11 +30,10 @@ public class LoginViaUI implements Task {
     public <T extends Actor> void performAs(T actor) {
         final AuthenticateWithCredentials authenticated = AuthenticateWithCredentials.as(actor);
         actor.attemptsTo(
-            Open.browserOn(loginPage),
-            SendKeys.of(authenticated.getUsername()).into(LoginForm.usernameInput()),
-            SendKeys.of(authenticated.getPassword()).into(LoginForm.passwordInput()),
-            Click.on(LoginForm.loginButton()),
-            WaitUntil.the(WebPage.loadingLogo(), isNotVisible())
-        );
+                Open.browserOn(loginPage),
+                SendKeys.of(authenticated.getUsername()).into(LoginForm.usernameInput()),
+                SendKeys.of(authenticated.getPassword()).into(LoginForm.passwordInput()),
+                Click.on(LoginForm.loginButton()),
+                WaitUntil.the(WebPage.loadingLogo(), isNotVisible()));
     }
 }

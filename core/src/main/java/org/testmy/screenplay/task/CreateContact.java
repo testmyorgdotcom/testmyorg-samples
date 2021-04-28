@@ -19,7 +19,7 @@ import net.serenitybdd.screenplay.actions.SendKeys;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 
 @AllArgsConstructor
-public class CreateContact implements Task{
+public class CreateContact implements Task {
     private String lastName;
 
     public static Performable withLastName(final String lastName) {
@@ -29,16 +29,15 @@ public class CreateContact implements Task{
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-            WaitUntil.the(NewContact.quickActionButton(), isVisible()),
-            Click.on(NewContact.quickActionButton()),
-            WaitUntil.the(NewContact.quickActionLayout(), isVisible()),
-            SendKeys.of(lastName).into(LastName.input()),
-            Click.on(Save.button()),
-            WaitUntil.the(Toast.success(), isVisible()),
-            Click.on(Toast.objectName()),
-            WaitUntil.the(WebPage.loadingLogo(), isNotVisible()),
-            StoreObjectAtScene.intoDataCache()
-        );
+                WaitUntil.the(NewContact.quickActionButton(), isVisible()),
+                Click.on(NewContact.quickActionButton()),
+                WaitUntil.the(NewContact.quickActionLayout(), isVisible()),
+                SendKeys.of(lastName).into(LastName.input()),
+                Click.on(Save.button()),
+                WaitUntil.the(Toast.success(), isVisible()),
+                Click.on(Toast.objectName()),
+                WaitUntil.the(WebPage.loadingLogo(), isNotVisible()),
+                StoreObjectAtScene.intoDataCache());
         // final WebDriver wd = actor.abilityTo(BrowseTheWeb.class).getDriver();
         // final String wd.getCurrentUrl();
     }

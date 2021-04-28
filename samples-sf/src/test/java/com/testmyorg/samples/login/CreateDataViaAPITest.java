@@ -33,33 +33,32 @@ public class CreateDataViaAPITest {
     Actor admin = Actor.named("Andim");
 
     @Before
-    public void before(){
+    public void before() {
         admin.has(PersonaBehaviour.of("Admin"));
         admin.can(Authenticate.withCredentials())
-            .can(CallPartnerSoapApi.ofVersion("51"))
-            .wasAbleTo(Login.viaSoapApi());
+                .can(CallPartnerSoapApi.ofVersion("51"))
+                .wasAbleTo(Login.viaSoapApi());
     }
+
     @After
-    public void after(){
+    public void after() {
         admin.attemptsTo(CleanData.afterTest());
     }
 
-
     @Test
-    public void createData(){
+    public void createData() {
         final String accountName = "Test Client:#" + UUID.randomUUID().toString();
         final Actor jane = Actor.named("Jane");
         jane.has(PersonaBehaviour.of("Sales Manager"));
 
         givenThat(jane)
-            .can(Authenticate.withCredentials())
-            .can(CallPartnerSoapApi.ofVersion("51"))
-            .wasAbleTo(Login.viaSoapApi());
+                .can(Authenticate.withCredentials())
+                .can(CallPartnerSoapApi.ofVersion("51"))
+                .wasAbleTo(Login.viaSoapApi());
 
         final HasFields accountShape = ofShape(
-            account(),
-            hasName(accountName)
-        );
+                account(),
+                hasName(accountName));
         when(jane).attemptsTo(CreateData.record(accountShape));
 
         then(jane).should(seeThat(QueryData.similarTo(accountShape), is(notNullValue())));
