@@ -40,8 +40,10 @@ public class TestDataManagerTest {
     private TestDataManager dataManagerUnderTest;
 
     @Before
-    public void before(){
-        when(storeToSalesforce.apply(any())).thenReturn(new SaveResult[]{new SaveResult()});
+    public void before() {
+        when(storeToSalesforce.apply(any())).thenReturn(new SaveResult[] {
+                new SaveResult()
+        });
     }
 
     @Test
@@ -98,10 +100,11 @@ public class TestDataManagerTest {
         sr.setId(sfId);
         final String clientName = "Test Client";
         final ConstructingMatcher clientShape = ofShape(
-            account(),
-            hasName(clientName)
-        );
-        when(storeToSalesforce.apply(any())).thenReturn(new SaveResult[]{sr});
+                account(),
+                hasName(clientName));
+        when(storeToSalesforce.apply(any())).thenReturn(new SaveResult[] {
+                sr
+        });
 
         final SObject sObject = dataManagerUnderTest.getOrCreate(clientShape, storeToSalesforce);
 
@@ -118,12 +121,11 @@ public class TestDataManagerTest {
     }
 
     @Test
-    public void addDataToCacheIfWithIdAndType(){
+    public void addDataToCacheIfWithIdAndType() {
         final ConstructingMatcher ofShape = ofShape(
-            account(),
-            hasId("003xyz..."),
-            hasName("Test Client")
-        );
+                account(),
+                hasId("003xyz..."),
+                hasName("Test Client"));
 
         dataManagerUnderTest.cacheExistingShape(ofShape);
 
@@ -132,24 +134,22 @@ public class TestDataManagerTest {
 
         verify(storeToSalesforce, never()).apply(any());
     }
-    
-    @Test(expected =  IllegalArgumentException.class)
-    public void failAddIfIdIsMissing(){
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failAddIfIdIsMissing() {
         final ConstructingMatcher ofShape = ofShape(
-            account(),
-            hasName("Test Client")
-        );
-    
+                account(),
+                hasName("Test Client"));
+
         dataManagerUnderTest.cacheExistingShape(ofShape);
     }
-    
-    @Test(expected =  IllegalArgumentException.class)
-    public void failAddIfTypeIsMissing(){
+
+    @Test(expected = IllegalArgumentException.class)
+    public void failAddIfTypeIsMissing() {
         final ConstructingMatcher ofShape = ofShape(
-            hasId("003xyz..."),
-            hasName("Test Client")
-        );
-    
+                hasId("003xyz..."),
+                hasName("Test Client"));
+
         dataManagerUnderTest.cacheExistingShape(ofShape);
     }
 }

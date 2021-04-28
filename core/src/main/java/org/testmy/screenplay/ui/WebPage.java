@@ -10,7 +10,8 @@ public class WebPage {
 
     public static Target spinner() {
         return Target.the("Spinner")
-            .locatedBy("//div[@data-aura-class='forceListViewManagerPrimaryDisplayManager']//span[text()='Loading...']");
+                .locatedBy(
+                        "//div[@data-aura-class='forceListViewManagerPrimaryDisplayManager']//span[text()='Loading...']");
     }
 
 }

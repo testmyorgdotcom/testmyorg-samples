@@ -18,7 +18,7 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.thucydides.core.annotations.Shared;
 
-public class CreateData implements Task{
+public class CreateData implements Task {
     @Setter
     @Shared
     private TestDataManager testDataManager;
@@ -27,28 +27,32 @@ public class CreateData implements Task{
     @Setter
     private Function<SObject[], SaveResult[]> storeFunction = so -> {
         SaveResult[] result = new SaveResult[0];
+
         try {
             result = connectionSupplier.get().create(so);
-        } catch (final ConnectionException e) {
+        }
+        catch (final ConnectionException e) {
             e.printStackTrace();
-            throw new IllegalStateException(e); //TODO: change to a dedicated exception
+            throw new IllegalStateException(e); // TODO: change to a dedicated exception
         }
         return result;
     };
     private ConstructingMatcher objectShape;
 
-    protected CreateData(final ConstructingMatcher objectShape){
+    protected CreateData(final ConstructingMatcher objectShape) {
         this.objectShape = objectShape;
     }
 
     public static CreateData record(ConstructingMatcher ofShape) {
         return Instrumented.instanceOf(CreateData.class).withProperties(ofShape);
     }
-    protected CreateData withStoreFunction(final Function<SObject[], SaveResult[]> storeFunction){
+
+    protected CreateData withStoreFunction(final Function<SObject[], SaveResult[]> storeFunction) {
         this.storeFunction = storeFunction;
         return this;
     }
-    protected CreateData withTestDataManager(final TestDataManager testDataManager){
+
+    protected CreateData withTestDataManager(final TestDataManager testDataManager) {
         this.testDataManager = testDataManager;
         return this;
     }

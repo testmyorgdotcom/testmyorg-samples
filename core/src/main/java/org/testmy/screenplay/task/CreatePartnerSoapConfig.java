@@ -9,11 +9,12 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
 
 @AllArgsConstructor
-public class CreatePartnerSoapConfig implements Performable{
+public class CreatePartnerSoapConfig implements Performable {
     private final String username;
     private final String password;
 
-    public static Performable with(final String username, final String password) {
+    public static Performable with(final String username,
+            final String password) {
         return new CreatePartnerSoapConfig(username, password);
     }
 
@@ -22,7 +23,7 @@ public class CreatePartnerSoapConfig implements Performable{
         final ConnectorConfig config = new ConnectorConfig();
         config.setUsername(username);
         config.setPassword(password);
-        
+
         actor.abilityTo(CallPartnerSoapApi.class).withConfig(config);
     }
 }

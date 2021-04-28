@@ -26,7 +26,7 @@ public class SearchForAccount implements Task {
     private TestDataManager testDataManager;
     private String accountName;
 
-    public SearchForAccount(final String accountName){
+    public SearchForAccount(final String accountName) {
         this.accountName = accountName;
     }
 
@@ -37,33 +37,37 @@ public class SearchForAccount implements Task {
     @Override
     public <T extends Actor> void performAs(T actor) {
         final SObject createdAccount = testDataManager.findObject(
-            ofShape(
-                account(),
-                hasName(accountName)
-            )
-        ).orElseThrow(() -> new IllegalStateException("Trying to search for account which was not created before"));
+                ofShape(
+                        account(),
+                        hasName(accountName)))
+                .orElseThrow(
+                        () -> new IllegalStateException("Trying to search for account which was not created before"));
         final String currentUrl = actor.abilityTo(BrowseTheWeb.class).getDriver().getCurrentUrl();
         final String id = createdAccount.getId();
         final String type = createdAccount.getType();
         actor.attemptsTo(
-            Open.url(constructUrl(currentUrl, type, id)),
-            // Click.on(AppLauncher.icon()),
-            // SendKeys.of("accounts").into(AppLauncher.searchInput()),
-            // WaitUntil.the(AppLauncher.itemCalled("Accounts"), isVisible()),
-            // JavaScriptClick.on(AppLauncher.itemCalled("Accounts")),
-            WaitUntil.the(WebPage.loadingLogo(), isNotVisible())
-            // WaitUntil.the(WebPage.spinner(), isNotVisible()),
-            // GlobalSearch.forType("Accounts", accountName)
-            // SendKeys.of(accountName).into(GlobalSearch.input()),
-            // JavaScriptClick.on(GlobalSearch.resultCalled(accountName))            
+                Open.url(constructUrl(currentUrl, type, id)),
+                // Click.on(AppLauncher.icon()),
+                // SendKeys.of("accounts").into(AppLauncher.searchInput()),
+                // WaitUntil.the(AppLauncher.itemCalled("Accounts"), isVisible()),
+                // JavaScriptClick.on(AppLauncher.itemCalled("Accounts")),
+                WaitUntil.the(WebPage.loadingLogo(), isNotVisible())
+        // WaitUntil.the(WebPage.spinner(), isNotVisible()),
+        // GlobalSearch.forType("Accounts", accountName)
+        // SendKeys.of(accountName).into(GlobalSearch.input()),
+        // JavaScriptClick.on(GlobalSearch.resultCalled(accountName))
         );
     }
 
-    private String constructUrl(String currentUrl, String type, String id) {
+    private String constructUrl(String currentUrl,
+            String type,
+            String id) {
+
         try {
             final URL url = new URL(currentUrl);
             return String.format("%s://%s/lightning/r/%s/%s/view", url.getProtocol(), url.getHost(), type, id);
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e) {
             throw new IllegalArgumentException("Incorrect input url: " + currentUrl);
         }
     }

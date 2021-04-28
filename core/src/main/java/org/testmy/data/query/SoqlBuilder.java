@@ -11,19 +11,22 @@ public class SoqlBuilder {
     private final List<SoqlComponent> soqlComponents = new LinkedList<>();
     private boolean hasIdComponent = false;
 
-    public SoqlBuilder(final SoqlComponent ...soqlComponents) {
+    public SoqlBuilder(final SoqlComponent... soqlComponents) {
         boolean mandatoryComponentFound = false;
-        for(final SoqlComponent sc: soqlComponents){
+
+        for (final SoqlComponent sc : soqlComponents) {
             this.soqlComponents.add(sc);
             mandatoryComponentFound = mandatoryComponentFound || MANDATORY_TYPE_COMPONENT.equals(sc.getFieldName());
             hasIdComponent = hasIdComponent || ID_COMPONENT.equals(sc.getFieldName());
         }
-        if(!mandatoryComponentFound){
+
+        if (!mandatoryComponentFound) {
             this.soqlComponents.clear();
             throw new IllegalArgumentException("mandatory component was not passed: " + MANDATORY_TYPE_COMPONENT);
         }
     }
-    public static SoqlBuilder soqlBuilder(final SoqlComponent ...soqlComponents){
+
+    public static SoqlBuilder soqlBuilder(final SoqlComponent... soqlComponents) {
         return new SoqlBuilder(soqlComponents);
     }
 
@@ -31,45 +34,48 @@ public class SoqlBuilder {
         final StringBuilder sb = new StringBuilder("SELECT ");
         final String whereCondition = buildWhereCondition();
         sb
-            .append(buildSelectPart())
-            .append(" FROM ")
-            .append(buildFromPart());
-        if(!whereCondition.isEmpty()){
+                .append(buildSelectPart())
+                .append(" FROM ")
+                .append(buildFromPart());
+
+        if (!whereCondition.isEmpty()) {
             sb
-                .append(" WHERE ")
-                .append(buildWhereCondition());
+                    .append(" WHERE ")
+                    .append(buildWhereCondition());
         }
         return sb.toString();
     }
 
     String buildWhereCondition() {
         return String.join(
-            " AND ",
-            soqlComponents
-                .stream()
-                .filter(sc -> !MANDATORY_TYPE_COMPONENT.equalsIgnoreCase(sc.getFieldName()))
-                .map(sc -> sc.getWhereCriterion())
-                .collect(Collectors.toList()));
+                " AND ",
+                soqlComponents
+                        .stream()
+                        .filter(sc -> !MANDATORY_TYPE_COMPONENT.equalsIgnoreCase(sc.getFieldName()))
+                        .map(sc -> sc.getWhereCriterion())
+                        .collect(Collectors.toList()));
     }
 
     String buildSelectPart() {
         final String partOfSelectedFields = String.join(
-                                            ", ",
-                                            soqlComponents
-                                                .stream()
-                                                .filter(sc -> !MANDATORY_TYPE_COMPONENT.equalsIgnoreCase(sc.getFieldName()))
-                                                .map(sc -> sc.getFieldToSelect())
-                                                .collect(Collectors.toList()));
+                ", ",
+                soqlComponents
+                        .stream()
+                        .filter(sc -> !MANDATORY_TYPE_COMPONENT.equalsIgnoreCase(sc.getFieldName()))
+                        .map(sc -> sc.getFieldToSelect())
+                        .collect(Collectors.toList()));
         return partOfSelectedFields.isEmpty()
-            ? ID_COMPONENT
-            : hasIdComponent
-                ? partOfSelectedFields
-                : ID_COMPONENT + ", " + partOfSelectedFields;                
+                ? ID_COMPONENT
+                : hasIdComponent
+                        ? partOfSelectedFields
+                        : ID_COMPONENT + ", " + partOfSelectedFields;
     }
 
     public String buildFromPart() {
-        for(final SoqlComponent soqlComponent: soqlComponents){
-            if(MANDATORY_TYPE_COMPONENT.equals(soqlComponent.getFieldName())){
+
+        for (final SoqlComponent soqlComponent : soqlComponents) {
+
+            if (MANDATORY_TYPE_COMPONENT.equals(soqlComponent.getFieldName())) {
                 return soqlComponent.getObjectToSelectFrom();
             }
         }

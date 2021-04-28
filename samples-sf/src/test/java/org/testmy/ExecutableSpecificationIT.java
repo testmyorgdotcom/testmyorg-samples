@@ -12,5 +12,5 @@ package org.testmy;
 //   }
 // )
 public class ExecutableSpecificationIT {
-  
+
 }

@@ -14,7 +14,7 @@ import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Question;
 
 @AllArgsConstructor
-public class QueryData implements Question<SObject>{
+public class QueryData implements Question<SObject> {
     private HasFields objectShape;
 
     public static Question<SObject> similarTo(HasFields objectShape) {
@@ -24,11 +24,13 @@ public class QueryData implements Question<SObject>{
     @Override
     public SObject answeredBy(Actor actor) {
         final PartnerConnection connection = CallPartnerSoapApi.as(actor).getConnection();
+
         try {
             final QueryResult qr = connection.query(objectShape.toSoql());
             return qr.getRecords()[0];
-        } catch (ConnectionException e) {
-            throw new IllegalStateException(e); //TODO: change to a dedicated exception
+        }
+        catch (ConnectionException e) {
+            throw new IllegalStateException(e); // TODO: change to a dedicated exception
         }
     }
 }

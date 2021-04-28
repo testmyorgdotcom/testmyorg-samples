@@ -10,25 +10,22 @@ public class SoqlComponentTest {
     @Test
     public void buildSelectPart() {
         assertThat(
-            soqlComponent("field", "anything").getFieldToSelect(),
-            equalTo("field")
-        );
+                soqlComponent("field", "anything").getFieldToSelect(),
+                equalTo("field"));
     }
 
     @Test
     public void buildFromPart() {
         assertThat(
-            soqlComponent("type", "Any Object").getObjectToSelectFrom(),
-            equalTo("Any Object")
-        );
+                soqlComponent("type", "Any Object").getObjectToSelectFrom(),
+                equalTo("Any Object"));
     }
 
     @Test
     public void buildWherePart() {
         assertThat(
-            soqlComponent("field", "value").getWhereCriterion(),
-            equalTo("field = 'value'")
-        );
+                soqlComponent("field", "value").getWhereCriterion(),
+                equalTo("field = 'value'"));
     }
 
     @Test(expected = UnsupportedOperationException.class)

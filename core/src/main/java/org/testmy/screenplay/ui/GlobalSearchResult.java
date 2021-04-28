@@ -8,7 +8,7 @@ public class GlobalSearchResult {
 
     public static Target withName(String searchableItem) {
         return Target.the("Global Search Result")
-            .locatedBy("//tr//a[@title='" + searchableItem + "']");
+                .locatedBy("//tr//a[@title='" + searchableItem + "']");
     }
 
 }

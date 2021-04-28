@@ -62,7 +62,7 @@ public class HasFieldTest {
     }
 
     @Test
-    public void testVisitForUpdate(){
+    public void testVisitForUpdate() {
         final SObject testObject = new SObject();
         final String fieldName = "Name";
         final String fieldValue = "Value";
@@ -75,7 +75,7 @@ public class HasFieldTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void visitForUpdateNotSupportedIfBasedOnMatcherConstructor(){
+    public void visitForUpdateNotSupportedIfBasedOnMatcherConstructor() {
         final SObject testObject = new SObject();
         final String fieldName = "Name";
         final String fieldValue = "Value";
@@ -86,17 +86,15 @@ public class HasFieldTest {
     }
 
     @Test
-    public void constructSoqlComponent(){
+    public void constructSoqlComponent() {
         final String fieldName = "name", fieldValue = "value";
         final HasField fieldShape = hasField(fieldName, fieldValue);
-    
+
         assertThat(
-            fieldShape.getSoqlComponent().get().getFieldToSelect(),
-            equalTo(soqlComponent(fieldName, fieldValue).getFieldToSelect())
-        );
+                fieldShape.getSoqlComponent().get().getFieldToSelect(),
+                equalTo(soqlComponent(fieldName, fieldValue).getFieldToSelect()));
         assertThat(
-            fieldShape.getSoqlComponent().get().getWhereCriterion(),
-            equalTo(soqlComponent(fieldName, fieldValue).getWhereCriterion())
-        );
+                fieldShape.getSoqlComponent().get().getWhereCriterion(),
+                equalTo(soqlComponent(fieldName, fieldValue).getWhereCriterion()));
     }
 }

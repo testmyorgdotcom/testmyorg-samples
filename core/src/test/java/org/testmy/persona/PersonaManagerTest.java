@@ -13,14 +13,16 @@ import org.junit.Test;
 
 public class PersonaManagerTest {
     final PersonaManager managerUnderTest = new PersonaManager("empty-personas");
+
     @Test
-    public void hasPersonas(){
+    public void hasPersonas() {
         final List<Persona> personas = managerUnderTest.getAllPersonas();
 
         assertThat(personas, notNullValue());
     }
+
     @Test
-    public void reservesPersonaForActor(){
+    public void reservesPersonaForActor() {
         final Persona expectedPersona = new Persona();
         managerUnderTest.addPersona(expectedPersona);
 
@@ -28,8 +30,9 @@ public class PersonaManagerTest {
 
         assertThat(persona, is(equalTo(expectedPersona)));
     }
+
     @Test
-    public void findNextAvailablePersona(){
+    public void findNextAvailablePersona() {
         final Persona expectedPersona1 = new Persona("1");
         managerUnderTest.addPersona(expectedPersona1);
         final Persona expectedPersona2 = new Persona("2");
@@ -40,16 +43,18 @@ public class PersonaManagerTest {
 
         assertThat(persona, is(equalTo(expectedPersona2)));
     }
+
     @Test(expected = IllegalStateException.class)
-    public void exceptionIfNoAvailablePersonas(){
+    public void exceptionIfNoAvailablePersonas() {
         final Persona expectedPersona = new Persona();
         managerUnderTest.addPersona(expectedPersona);
 
         managerUnderTest.reservePersonaFor("1st actor");
         managerUnderTest.reservePersonaFor("2nd actor");
     }
+
     @Test
-    public void reusePersonaForActor(){
+    public void reusePersonaForActor() {
         final String actorName = "Mike";
         final Persona expectedPersona = new Persona();
         managerUnderTest.addPersona(expectedPersona);
@@ -59,8 +64,9 @@ public class PersonaManagerTest {
 
         assertThat(persona, is(equalTo(expectedPersona)));
     }
+
     @Test
-    public void reserveSpecificPersona(){
+    public void reserveSpecificPersona() {
         final String actorName = "Mike";
         final String personaName = "Sales";
         final Persona persona = new Persona(personaName);
@@ -72,8 +78,8 @@ public class PersonaManagerTest {
     }
 
     @Test
-    public void loadsPersonaDefinitionsFromConfigFile(){
-        final PersonaManager managerWithConfigOverride = new PersonaManager("test-personas"); //TODO: move to varaible
+    public void loadsPersonaDefinitionsFromConfigFile() {
+        final PersonaManager managerWithConfigOverride = new PersonaManager("test-personas"); // TODO: move to varaible
 
         assertThat(managerWithConfigOverride.getAllPersonas(), hasSize(2));
 
@@ -84,7 +90,7 @@ public class PersonaManagerTest {
     }
 
     @Test
-    public void returnsBackPersonasForReUse(){
+    public void returnsBackPersonasForReUse() {
         final Persona expectedPersona = new Persona();
         managerUnderTest.addPersona(expectedPersona);
 

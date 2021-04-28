@@ -2,9 +2,9 @@
   "maven.view": "hierarchical",
   "java.dependency.packagePresentation": "hierarchical",
   "cucumberautocomplete.steps": [
-      "**/glue/**/*.java",
+    "**/*.java",
   ],
   "cucumberautocomplete.strictGherkinCompletion": true,
   "todo-tree.tree.showBadges": false,
   "todo-tree.tree.disableCompactFolders": true
-}  
+}

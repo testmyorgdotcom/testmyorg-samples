@@ -7,17 +7,20 @@ import static org.testmy.data.query.SoqlComponent.MANDATORY_TYPE_COMPONENT;
 import org.hamcrest.Matcher;
 
 public class Matchers {
-    public static HasField hasField(final String fieldName, final String fieldValue) {
+    public static HasField hasField(final String fieldName,
+            final String fieldValue) {
         return new HasField(fieldName, fieldValue);
     }
 
-    public static HasField hasField(final String fieldName, final Matcher<? extends Object> fieldValueMatcher) {
+    public static HasField hasField(final String fieldName,
+            final Matcher<? extends Object> fieldValueMatcher) {
         return new HasField(fieldName, fieldValueMatcher);
     }
 
     public static HasField account() {
         return new HasField(MANDATORY_TYPE_COMPONENT, "Account");
     }
+
     public static HasField contact() {
         return new HasField(MANDATORY_TYPE_COMPONENT, "Contact");
     }
