@@ -12,8 +12,7 @@ import org.testmy.data.matchers.ConstructingMatcher;
 
 public interface ITestDataManager {
 
-    SObject getOrCreate(ConstructingMatcher sObjectShape,
-            Function<SObject[], SaveResult[]> storeFunction);
+    SObject ensureObject(ConstructingMatcher sObjectShape, Function<SObject[], SaveResult[]> storeFunction);
 
     Optional<SObject> findObject(Matcher<SObject> sObjectShape);
 

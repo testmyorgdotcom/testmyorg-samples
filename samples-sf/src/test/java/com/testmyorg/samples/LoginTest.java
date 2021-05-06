@@ -1,4 +1,4 @@
-package com.testmyorg.samples.login;
+package com.testmyorg.samples;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -9,15 +9,16 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.testmy.screenplay.ability.Authenticate;
-import org.testmy.screenplay.ability.CallPartnerSoapApi;
+import org.testmy.screenplay.act.Ensure;
 import org.testmy.screenplay.fact.PersonaBehaviour;
+import org.testmy.screenplay.factory.Login;
+import org.testmy.screenplay.factory.ability.Authenticate;
+import org.testmy.screenplay.factory.ability.Call;
 import org.testmy.screenplay.question.PartnerConnection;
-import org.testmy.screenplay.task.AddToken;
-import org.testmy.screenplay.task.Login;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.Actor;
@@ -29,21 +30,44 @@ import net.thucydides.core.annotations.Managed;
 public class LoginTest {
     @Managed
     WebDriver browser;
+    Actor mike;
 
-    @Test
-    public void authenticateViaLoginForm() {
-        final Actor mike = Actor.named("Mike");
+    @Before
+    public void before() {
+        mike = Actor.named("Mike");
         mike.has(PersonaBehaviour.of("Admin"));
 
         givenThat(mike)
                 .can(Authenticate.withCredentials())
                 .can(BrowseTheWeb.with(browser));
+    }
 
+    @Test
+    public void authenticateViaLoginForm() {
         when(mike).attemptsTo(Login.viaUI());
 
         then(mike).should(seeThat(TheWebPage.title(), allOf(containsString("Home"), containsString("Salesforce"))));
     }
 
+    @Test
+    public void authenticateUsingSessionIdObtainedViaAPI() {
+        givenThat(mike)
+                .can(Call.partnerApi());
+
+        when(mike).attemptsTo(Login.usingCookies());
+
+        then(mike).should(seeThat(TheWebPage.title(), allOf(containsString("Home"), containsString("Salesforce"))));
+    }
+
+    @Test
+    public void authenticateWithSessionIdThroughFrontDoor() {
+        givenThat(mike)
+                .can(Call.partnerApi());
+
+        when(mike).attemptsTo(Login.viaFrontDoorUrl());
+
+        then(mike).should(seeThat(TheWebPage.title(), allOf(containsString("Home"), containsString("Salesforce"))));
+    }
     @Test
     public void authenticateViaAPI() {
         final Actor mike = Actor.named("Mike");
@@ -51,29 +75,10 @@ public class LoginTest {
 
         givenThat(mike)
                 .can(Authenticate.withCredentials())
-                .can(CallPartnerSoapApi.ofVersion("51"));
+                .can(Call.partnerApi());
 
-        when(mike).attemptsTo(Login.viaSoapApi());
+        when(mike).attemptsTo(Ensure.partnerConnection());
 
         then(mike).should(seeThat(PartnerConnection.sessionId(), is(notNullValue())));
-    }
-
-    @Test
-    public void useApiTokenInWebFlow() {
-        final Actor mike = Actor.named("Mike");
-        mike.has(PersonaBehaviour.of("Admin"));
-
-        givenThat(mike)
-                .can(Authenticate.withCredentials())
-                .can(CallPartnerSoapApi.ofVersion("51"))
-                .can(BrowseTheWeb.with(browser))
-                .wasAbleTo(Login.viaSoapApi());
-
-        when(mike).attemptsTo(
-                AddToken.asCookieAndOpenUrl());
-
-        then(mike).should(seeThat(TheWebPage.title(), allOf(containsString("Home"), containsString("Salesforce"))));
-    }
-    // TODO: support login as - too difficult, looks like need to hardcode url or do
-    // via UI actions Low Priority for now
+    }    
 }

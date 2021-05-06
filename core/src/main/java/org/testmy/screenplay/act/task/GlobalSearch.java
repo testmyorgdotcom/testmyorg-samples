@@ -1,4 +1,4 @@
-package org.testmy.screenplay.task;
+package org.testmy.screenplay.act.task;
 
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isClickable;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isNotVisible;

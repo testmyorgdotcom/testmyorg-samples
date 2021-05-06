@@ -1,4 +1,4 @@
-package com.testmyorg.samples.login;
+package com.testmyorg.samples;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -15,15 +15,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.testmy.screenplay.ability.Authenticate;
-import org.testmy.screenplay.ability.CallPartnerSoapApi;
+import org.testmy.screenplay.act.CleanData;
+import org.testmy.screenplay.act.CreateData;
+import org.testmy.screenplay.act.task.CreateContact;
+import org.testmy.screenplay.act.task.SearchForAccount;
 import org.testmy.screenplay.fact.PersonaBehaviour;
+import org.testmy.screenplay.factory.Login;
+import org.testmy.screenplay.factory.ability.Authenticate;
+import org.testmy.screenplay.factory.ability.Call;
 import org.testmy.screenplay.question.QueryData;
-import org.testmy.screenplay.task.CleanData;
-import org.testmy.screenplay.task.CreateContact;
-import org.testmy.screenplay.task.CreateData;
-import org.testmy.screenplay.task.Login;
-import org.testmy.screenplay.task.SearchForAccount;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.Actor;
@@ -31,7 +31,7 @@ import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.thucydides.core.annotations.Managed;
 
 @RunWith(SerenityRunner.class)
-public class CreateDataViaUITest {
+public class CreateDataInUITest {
     @Managed
     WebDriver browser;
 
@@ -40,12 +40,12 @@ public class CreateDataViaUITest {
     @Before
     public void before() {
         admin.has(PersonaBehaviour.of("Admin"));
-        admin
+        givenThat(admin)
                 .can(Authenticate.withCredentials())
-                .can(CallPartnerSoapApi.ofVersion("51"))
+                .can(Call.partnerApi())
                 .can(BrowseTheWeb.with(browser))
-                .wasAbleTo(Login.viaUI());
-        admin.wasAbleTo(Login.viaSoapApi());
+                .wasAbleTo(Login.viaAPI());
+        admin.wasAbleTo(Login.viaFrontDoorUrl());
     }
 
     @After

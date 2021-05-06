@@ -27,7 +27,7 @@ public class TestDataManager implements ITestDataManager {
     }
 
     @Override
-    public SObject getOrCreate(
+    public SObject ensureObject(
             final ConstructingMatcher sObjectShape,
             final Function<SObject[], SaveResult[]> storeFunction) {
         return findObject(sObjectShape).orElseGet(() -> {

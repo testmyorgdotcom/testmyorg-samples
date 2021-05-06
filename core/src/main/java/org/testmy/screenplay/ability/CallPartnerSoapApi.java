@@ -1,51 +1,49 @@
 package org.testmy.screenplay.ability;
 
+import java.util.Optional;
+import java.util.function.Function;
+
 import com.sforce.soap.partner.PartnerConnection;
-import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 
 import lombok.Getter;
 import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.RefersToActor;
 
-public class CallPartnerSoapApi implements Ability {
-    private String connectionUrl;
+public class CallPartnerSoapApi implements Ability, RefersToActor {
     @Getter
-    private ConnectorConfig config;
+    private Actor actor;
+    // TODO: make configurable
+    private String connectionUrl = "https://login.salesforce.com/services/Soap/u/51";
+    private Function<ConnectorConfig, PartnerConnection> connectionFactory;
     @Getter
-    private PartnerConnection connection;
+    private Optional<PartnerConnection> connection = Optional.empty();
 
-    public CallPartnerSoapApi(final String apiVersion) {
-        this.connectionUrl = "https://login.salesforce.com/services/Soap/u/" + apiVersion;
+    public CallPartnerSoapApi(final Function<ConnectorConfig, PartnerConnection> connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
-    public static CallPartnerSoapApi ofVersion(final String apiVersion) {
-        return new CallPartnerSoapApi(apiVersion);
-    }
+    public PartnerConnection ensureConnection() {
 
-    public void withConfig(ConnectorConfig config) {
-        config.setAuthEndpoint(this.connectionUrl);
-        this.config = config;
-    }
-
-    public void connect() {
-
-        try {
-            this.connection = new PartnerConnection(getConfig());
+        if (!connection.isPresent()) {
+            final AuthenticateWithCredentials credentials = AuthenticateWithCredentials.as(actor);
+            final ConnectorConfig config = new ConnectorConfig();
+            config.setUsername(credentials.getUsername());
+            config.setPassword(credentials.getPassword());
+            config.setAuthEndpoint(connectionUrl);
+            this.connection = Optional.of(connectionFactory.apply(config));
         }
-        catch (final ConnectionException e) {
-            e.printStackTrace();
-            // TODO: throw exception so test fails
-        }
+        return connection.get();
     }
 
     public static CallPartnerSoapApi as(final Actor actor) {
-        final CallPartnerSoapApi ability = actor.abilityTo(CallPartnerSoapApi.class);
+        return AbilityAs.actor(actor, CallPartnerSoapApi.class);
+    }
 
-        if (null == ability) {
-            // TODO: add standard pattern for no ability for Actor
-            throw new IllegalArgumentException("Actor does not have ability: ");
-        }
-        return ability;
+    @Override
+    public <T extends Ability> T asActor(Actor actor) {
+        this.actor = actor;
+        return (T) this;
     }
 }

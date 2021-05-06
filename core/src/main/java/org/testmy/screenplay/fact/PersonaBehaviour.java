@@ -13,7 +13,7 @@ import net.serenitybdd.screenplay.facts.Fact;
 @AllArgsConstructor
 public class PersonaBehaviour implements Fact {
     private static Map<Actor, String> actorsFacts = new ConcurrentHashMap<>();
-    private static PersonaManager personaManager = new PersonaManager();
+    private static PersonaManager personaManager = new PersonaManager(); // TODO: inject persona manager instead
 
     private String persona;
 

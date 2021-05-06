@@ -1,4 +1,4 @@
-package org.testmy.screenplay.task;
+package org.testmy.screenplay.act.task;
 
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isNotVisible;
 
@@ -22,7 +22,7 @@ public class LoginWith implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        final ConnectorConfig config = actor.abilityTo(CallPartnerSoapApi.class).getConfig();
+        final ConnectorConfig config = CallPartnerSoapApi.as(actor).ensureConnection().getConfig();
         String url = config.getServiceEndpoint();
         url = url.substring(0, url.indexOf("/services/"));
         System.out.println("URL >>> " + url);

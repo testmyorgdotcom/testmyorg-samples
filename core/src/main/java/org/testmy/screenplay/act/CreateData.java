@@ -1,4 +1,4 @@
-package org.testmy.screenplay.task;
+package org.testmy.screenplay.act;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -59,7 +59,7 @@ public class CreateData implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        this.connectionSupplier = () -> CallPartnerSoapApi.as(actor).getConnection();
-        testDataManager.getOrCreate(objectShape, storeFunction);
+        this.connectionSupplier = () -> CallPartnerSoapApi.as(actor).ensureConnection();
+        testDataManager.ensureObject(objectShape, storeFunction);
     }
 }

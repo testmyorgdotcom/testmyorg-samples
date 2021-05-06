@@ -8,7 +8,7 @@ import net.serenitybdd.screenplay.Question;
 public class PartnerConnection implements Question<String> {
     @Override
     public String answeredBy(final Actor actor) {
-        return actor.abilityTo(CallPartnerSoapApi.class).getConfig().getSessionId();
+        return CallPartnerSoapApi.as(actor).getConnection().get().getConfig().getSessionId();
     }
 
     public static PartnerConnection sessionId() {

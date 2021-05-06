@@ -19,7 +19,7 @@ public class LightCredentialsProviderTest {
         final PersonaManager personaManager = new PersonaManager("test-personas");
         final Persona testPersona = personaManager.getAllPersonas().get(0);
 
-        final Credentials credentials = LightCredentialsProvider.getCredentialsFor(testPersona);
+        final Credentials credentials = new LightCredentialsProvider().getCredentialsFor(testPersona);
 
         assertThat(credentials.getUserPrincipal().getName(), is(equalTo(testPersona.getUsername())));
         assertThat(credentials.getPassword(), is(equalTo(testPassword)));

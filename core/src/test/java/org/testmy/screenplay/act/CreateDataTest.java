@@ -1,4 +1,4 @@
-package org.testmy.screenplay.task;
+package org.testmy.screenplay.act;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.when;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,10 +44,8 @@ public class CreateDataTest {
     public void testPerform() {
         final Actor mike = Actor.named("Mike");
 
-        when(mike).attemptsTo(
-                CreateData.record(ofShape(
-                        account(),
-                        hasName("accountName"))).withStoreFunction(storeFunction).withTestDataManager(testDataManager));
+        when(mike).attemptsTo(CreateData.record(ofShape(account(), hasName("accountName")))
+                .withStoreFunction(storeFunction).withTestDataManager(testDataManager));
 
         final List<SObject> testData = testDataManager.getData();
         assertThat(testData, hasSize(1));
