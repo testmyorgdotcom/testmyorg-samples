@@ -78,7 +78,7 @@ public class TestDataManagerTest {
         final String fieldName = "field", fieldValue = "value";
         final ConstructingMatcher sObjectShape = hasField(fieldName, fieldValue);
 
-        final SObject sObject = dataManagerUnderTest.getOrCreate(sObjectShape, storeToSalesforce);
+        final SObject sObject = dataManagerUnderTest.ensureObject(sObjectShape, storeToSalesforce);
 
         assertThat(sObject, is(sObjectShape));
     }
@@ -88,7 +88,7 @@ public class TestDataManagerTest {
         final String fieldName = "field", fieldValue = "value";
         final ConstructingMatcher sObjectShape = hasField(fieldName, fieldValue);
 
-        final SObject sObject = dataManagerUnderTest.getOrCreate(sObjectShape, storeToSalesforce);
+        final SObject sObject = dataManagerUnderTest.ensureObject(sObjectShape, storeToSalesforce);
 
         assertThat(dataManagerUnderTest.getData().contains(sObject), is(true));
     }
@@ -106,7 +106,7 @@ public class TestDataManagerTest {
                 sr
         });
 
-        final SObject sObject = dataManagerUnderTest.getOrCreate(clientShape, storeToSalesforce);
+        final SObject sObject = dataManagerUnderTest.ensureObject(clientShape, storeToSalesforce);
 
         assertThat(sObject, hasId());
     }
@@ -117,7 +117,7 @@ public class TestDataManagerTest {
         final Matcher<String> fieldValueShape = is(equalTo(fieldValue));
         final ConstructingMatcher sObjectShape = hasField(fieldName, fieldValueShape);
 
-        dataManagerUnderTest.getOrCreate(sObjectShape, storeToSalesforce);
+        dataManagerUnderTest.ensureObject(sObjectShape, storeToSalesforce);
     }
 
     @Test

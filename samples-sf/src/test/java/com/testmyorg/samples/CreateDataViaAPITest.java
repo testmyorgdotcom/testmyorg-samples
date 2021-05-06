@@ -1,4 +1,4 @@
-package com.testmyorg.samples.login;
+package com.testmyorg.samples;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -17,13 +17,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testmy.data.matchers.HasFields;
-import org.testmy.screenplay.ability.Authenticate;
-import org.testmy.screenplay.ability.CallPartnerSoapApi;
+import org.testmy.screenplay.act.CleanData;
+import org.testmy.screenplay.act.CreateData;
 import org.testmy.screenplay.fact.PersonaBehaviour;
+import org.testmy.screenplay.factory.Login;
+import org.testmy.screenplay.factory.ability.Authenticate;
+import org.testmy.screenplay.factory.ability.Call;
 import org.testmy.screenplay.question.QueryData;
-import org.testmy.screenplay.task.CleanData;
-import org.testmy.screenplay.task.CreateData;
-import org.testmy.screenplay.task.Login;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.Actor;
@@ -35,9 +35,10 @@ public class CreateDataViaAPITest {
     @Before
     public void before() {
         admin.has(PersonaBehaviour.of("Admin"));
-        admin.can(Authenticate.withCredentials())
-                .can(CallPartnerSoapApi.ofVersion("51"))
-                .wasAbleTo(Login.viaSoapApi());
+        givenThat(admin)
+                .can(Authenticate.withCredentials())
+                .can(Call.partnerApi())
+                .wasAbleTo(Login.viaAPI());
     }
 
     @After
@@ -53,8 +54,8 @@ public class CreateDataViaAPITest {
 
         givenThat(jane)
                 .can(Authenticate.withCredentials())
-                .can(CallPartnerSoapApi.ofVersion("51"))
-                .wasAbleTo(Login.viaSoapApi());
+                .can(Call.partnerApi())
+                .wasAbleTo(Login.viaAPI());
 
         final HasFields accountShape = ofShape(
                 account(),

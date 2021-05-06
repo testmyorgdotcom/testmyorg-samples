@@ -1,4 +1,4 @@
-package org.testmy.screenplay.task;
+package org.testmy.screenplay.act;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +9,7 @@ import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
 
 import org.testmy.data.TestDataManager;
+import org.testmy.screenplay.ability.AbilityAs;
 import org.testmy.screenplay.ability.CallPartnerSoapApi;
 
 import net.serenitybdd.screenplay.Actor;
@@ -25,7 +26,8 @@ public class CleanData implements Performable {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        final PartnerConnection connection = CallPartnerSoapApi.as(actor).getConnection();
+        final CallPartnerSoapApi callApi = AbilityAs.actor(actor, CallPartnerSoapApi.class);
+        final PartnerConnection connection = callApi.getConnection().get();
         final String[] ids = testDataManager.getData()
                 .stream()
                 .map(s -> s.getId())

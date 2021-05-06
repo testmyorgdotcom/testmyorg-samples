@@ -23,7 +23,7 @@ public class QueryData implements Question<SObject> {
 
     @Override
     public SObject answeredBy(Actor actor) {
-        final PartnerConnection connection = CallPartnerSoapApi.as(actor).getConnection();
+        final PartnerConnection connection = CallPartnerSoapApi.as(actor).ensureConnection();
 
         try {
             final QueryResult qr = connection.query(objectShape.toSoql());

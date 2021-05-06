@@ -2,33 +2,42 @@ package org.testmy.screenplay.ability;
 
 import org.apache.http.auth.Credentials;
 import org.testmy.persona.Persona;
-import org.testmy.persona.auth.LightCredentialsProvider;
+import org.testmy.persona.auth.ICredentialsProvider;
 import org.testmy.screenplay.fact.PersonaBehaviour;
 
 import lombok.Getter;
 import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.RefersToActor;
 
-public class AuthenticateWithCredentials implements Ability { // , RefersToActor
-    // private Actor actor;
-    // @Autowired
-    LightCredentialsProvider credentialsProvider;
+public class AuthenticateWithCredentials implements Ability, RefersToActor {
+    private Actor actor;
+    private ICredentialsProvider credentialsProvider;
     @Getter
     private String username;
     @Getter
     private String password;
 
-    public static AuthenticateWithCredentials as(final Actor actor) {
+    public AuthenticateWithCredentials(final ICredentialsProvider credentialsProvider) {
+        this.credentialsProvider = credentialsProvider;
+    }
 
-        if (actor.abilityTo(AuthenticateWithCredentials.class) == null) {
-            // TODO: add dedicated exception
-            throw new IllegalArgumentException("Actor with name does not have this ability: " + actor.getName());
-        }
-        final AuthenticateWithCredentials result = actor.abilityTo(AuthenticateWithCredentials.class);
+    public static AuthenticateWithCredentials as(final Actor actor) {
+        final AuthenticateWithCredentials credAbility = AbilityAs.actor(actor, AuthenticateWithCredentials.class);
+        final Credentials credentials = credAbility.getCredentials();
+        credAbility.username = credentials.getUserPrincipal().getName();
+        credAbility.password = credentials.getPassword();
+        return credAbility;
+    }
+
+    private Credentials getCredentials() {
         final Persona persona = PersonaBehaviour.of(actor);
-        final Credentials credentials = LightCredentialsProvider.getCredentialsFor(persona);
-        result.username = credentials.getUserPrincipal().getName();
-        result.password = credentials.getPassword();
-        return result;
+        return credentialsProvider.getCredentialsFor(persona);
+    }
+
+    @Override
+    public <T extends Ability> T asActor(Actor actor) {
+        this.actor = actor;
+        return (T) this;
     }
 }

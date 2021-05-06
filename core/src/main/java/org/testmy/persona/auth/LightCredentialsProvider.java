@@ -4,10 +4,11 @@ import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.testmy.persona.Persona;
 
-public class LightCredentialsProvider {
+public class LightCredentialsProvider implements ICredentialsProvider {
     public static String passwordPropertyName = "testmyorg.commonPass";
 
-    public static Credentials getCredentialsFor(Persona testPersona) {
+    @Override
+    public Credentials getCredentialsFor(Persona testPersona) {
         return new UsernamePasswordCredentials(testPersona.getUsername(), System.getProperty(passwordPropertyName));
     }
 }

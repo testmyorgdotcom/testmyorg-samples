@@ -29,7 +29,7 @@ public class PersonaManager {
         this.personas = ConfigBeanFactory.create(config, PersonaList.class).personas;
     }
 
-    // TODO: change approach to avoud such constructor, read more about typesage
+    // TODO: change approach to avoud such constructor, read more about com.typesafe
     // config
     public PersonaManager(final String configFile) {
         final Config config = ConfigFactory.load(configFile);
