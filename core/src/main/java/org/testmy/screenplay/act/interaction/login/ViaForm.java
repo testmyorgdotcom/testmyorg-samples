@@ -1,34 +1,27 @@
-package org.testmy.screenplay.act.task;
+package org.testmy.screenplay.act.interaction.login;
 
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isNotVisible;
+
+import org.testmy.config.Config;
 import org.testmy.screenplay.ability.AuthenticateWithCredentials;
 import org.testmy.screenplay.ui.LoginForm;
-import org.testmy.screenplay.ui.LoginPage;
 import org.testmy.screenplay.ui.WebPage;
-import net.serenitybdd.core.steps.Instrumented;
+
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.Task;
+import net.serenitybdd.screenplay.Interaction;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.actions.SendKeys;
 import net.serenitybdd.screenplay.waits.WaitUntil;
-import net.thucydides.core.annotations.Step;
 
-public class LoginViaUI implements Task {
-    private LoginPage loginPage;
-
-    // public LoginViaUI() {}
-
-    public static LoginViaUI viaUI() {
-        return Instrumented.instanceOf(LoginViaUI.class).newInstance();
-    }
+public class ViaForm implements Interaction, Config {
 
     @Override
-    @Step("{0} logs into Salesforce")
     public <T extends Actor> void performAs(T actor) {
+        final String loginUrl = System.getProperty(PROPERTY_LOGIN_URL, PROPERTY_DEFAULT_LOGIN_URL);
         final AuthenticateWithCredentials credentials = AuthenticateWithCredentials.as(actor);
         actor.attemptsTo(
-                Open.browserOn(loginPage),
+                Open.url(loginUrl),
                 SendKeys.of(credentials.getUsername()).into(LoginForm.usernameInput()),
                 SendKeys.of(credentials.getPassword()).into(LoginForm.passwordInput()),
                 Click.on(LoginForm.loginButton()),

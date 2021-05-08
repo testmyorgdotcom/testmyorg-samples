@@ -18,4 +18,14 @@ public class LoginForm {
         return Target.the("Login Button")
                 .locatedBy("//*[@id='Login']");
     }
+
+    public static Target continueButton() {
+        return Target.the("Continue Button")
+                .locatedBy("//input[@name='thePage:inputForm:continue']");
+    }
+
+    public static Target registerPhone() {
+        return Target.the("I do not want to register phone")
+                .locatedBy("//a[contains(text(), 'Register')]");
+    }
 }

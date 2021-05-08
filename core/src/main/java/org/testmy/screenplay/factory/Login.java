@@ -1,23 +1,29 @@
 package org.testmy.screenplay.factory;
 
-import org.testmy.screenplay.act.AddToken;
 import org.testmy.screenplay.act.Ensure;
-import org.testmy.screenplay.act.task.LoginViaUI;
+import org.testmy.screenplay.act.interaction.login.ViaForm;
+import org.testmy.screenplay.act.interaction.login.ViaFrontDoorUrl;
+import org.testmy.screenplay.act.interaction.login.WithCredentialsInUrl;
+import org.testmy.screenplay.act.interaction.login.WithSessionIdAsCookie;
 
 import net.serenitybdd.core.steps.Instrumented;
 import net.serenitybdd.screenplay.Performable;
 
 public class Login {
-    public static LoginViaUI viaUI() {
-        return Instrumented.instanceOf(LoginViaUI.class).newInstance();
+    public static ViaForm viaForm() {
+        return Instrumented.instanceOf(ViaForm.class).newInstance();
     }
 
-    public static Performable usingCookies() {
-        return AddToken.asCookieAndOpenUrl();
+    public static WithCredentialsInUrl withCredentialsInUrl() {
+        return Instrumented.instanceOf(WithCredentialsInUrl.class).newInstance();
     }
 
-    public static Performable viaFrontDoorUrl() {
-        return AddToken.asSidAndOpenUrl();
+    public static ViaFrontDoorUrl withSessionIdInFrontDoorUrl() {
+        return Instrumented.instanceOf(ViaFrontDoorUrl.class).newInstance();
+    }
+
+    public static WithSessionIdAsCookie withSessionIdAsCookies() {
+        return Instrumented.instanceOf(WithSessionIdAsCookie.class).newInstance();
     }
 
     public static Performable viaAPI() {

@@ -45,7 +45,7 @@ public class CreateDataInUITest {
                 .can(Call.partnerApi())
                 .can(BrowseTheWeb.with(browser))
                 .wasAbleTo(Login.viaAPI());
-        admin.wasAbleTo(Login.viaFrontDoorUrl());
+        admin.wasAbleTo(Login.withSessionIdInFrontDoorUrl());
     }
 
     @After
