@@ -96,7 +96,7 @@ public class CallPartnerSoapApiTest {
 
     @Test
     public void failsIfWasNotGivenAbility() {
-        final String expectedMessage = String.format("Actor: %s has no specified ability: %s",
+        final String expectedMessage = String.format("Actor: %s has no requested ability: %s",
                 otherActorName,
                 CallPartnerSoapApi.class.getSimpleName());
         exceptionRule.expect(AbilityIsAbsentException.class);
@@ -107,7 +107,7 @@ public class CallPartnerSoapApiTest {
 
     @Test
     public void failsToEstablishConnectionWithoutCredentials() {
-        final String expectedMessage = String.format("Actor: %s has no specified ability: %s",
+        final String expectedMessage = String.format("Actor: %s has no requested ability: %s",
                 otherActorName,
                 AuthenticateWithCredentials.class.getSimpleName());
 

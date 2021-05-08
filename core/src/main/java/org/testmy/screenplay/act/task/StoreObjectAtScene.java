@@ -5,7 +5,7 @@ import static org.testmy.data.matchers.Matchers.hasId;
 import static org.testmy.data.matchers.Matchers.ofShape;
 
 import org.openqa.selenium.WebDriver;
-import org.testmy.URLParser;
+import org.testmy.URLHelper;
 import org.testmy.data.TestDataManager;
 
 import net.serenitybdd.core.steps.Instrumented;
@@ -26,8 +26,8 @@ public class StoreObjectAtScene implements Performable {
     public <T extends Actor> void performAs(T actor) {
         final WebDriver driver = actor.abilityTo(BrowseTheWeb.class).getDriver();
         final String currentObjectUrl = driver.getCurrentUrl();
-        final String id = URLParser.parseObjectId(currentObjectUrl);
-        final String type = URLParser.parseObjectType(currentObjectUrl);
+        final String id = URLHelper.parseObjectId(currentObjectUrl);
+        final String type = URLHelper.parseObjectType(currentObjectUrl);
         testDataManager.cacheExistingShape(ofShape(
                 hasId(id),
                 hasField("type", type)));

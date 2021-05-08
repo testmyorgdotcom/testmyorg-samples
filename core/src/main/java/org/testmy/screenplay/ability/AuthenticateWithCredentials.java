@@ -23,7 +23,7 @@ public class AuthenticateWithCredentials implements Ability, RefersToActor {
     }
 
     public static AuthenticateWithCredentials as(final Actor actor) {
-        final AuthenticateWithCredentials credAbility = AbilityAs.actor(actor, AuthenticateWithCredentials.class);
+        final AuthenticateWithCredentials credAbility = SafeAbility.as(actor, AuthenticateWithCredentials.class);
         final Credentials credentials = credAbility.getCredentials();
         credAbility.username = credentials.getUserPrincipal().getName();
         credAbility.password = credentials.getPassword();

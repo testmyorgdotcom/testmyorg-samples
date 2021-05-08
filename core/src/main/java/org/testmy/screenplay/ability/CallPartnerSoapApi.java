@@ -6,16 +6,16 @@ import java.util.function.Function;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectorConfig;
 
+import org.testmy.config.Config;
+
 import lombok.Getter;
 import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.RefersToActor;
 
-public class CallPartnerSoapApi implements Ability, RefersToActor {
+public class CallPartnerSoapApi implements Ability, RefersToActor, Config {
     @Getter
     private Actor actor;
-    // TODO: make configurable
-    private String connectionUrl = "https://login.salesforce.com/services/Soap/u/51";
     private Function<ConnectorConfig, PartnerConnection> connectionFactory;
     @Getter
     private Optional<PartnerConnection> connection = Optional.empty();
@@ -31,14 +31,14 @@ public class CallPartnerSoapApi implements Ability, RefersToActor {
             final ConnectorConfig config = new ConnectorConfig();
             config.setUsername(credentials.getUsername());
             config.setPassword(credentials.getPassword());
-            config.setAuthEndpoint(connectionUrl);
+            config.setAuthEndpoint(System.getProperty(PROPERTY_LOGIN_URL, PROPERTY_DEFAULT_LOGIN_URL));
             this.connection = Optional.of(connectionFactory.apply(config));
         }
         return connection.get();
     }
 
     public static CallPartnerSoapApi as(final Actor actor) {
-        return AbilityAs.actor(actor, CallPartnerSoapApi.class);
+        return SafeAbility.as(actor, CallPartnerSoapApi.class);
     }
 
     @Override

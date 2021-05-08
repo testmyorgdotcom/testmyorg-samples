@@ -25,7 +25,7 @@ public class NavigateToAppTest {
         salesManager
             .can(Authenticate.withCredentials())
             .can(BrowseTheWeb.with(browser))
-            .wasAbleTo(Login.usingCookies());
+            .wasAbleTo(Login.withSessionIdAsCookies());
     }
     @Test
     public void navigateToSalesApp(){

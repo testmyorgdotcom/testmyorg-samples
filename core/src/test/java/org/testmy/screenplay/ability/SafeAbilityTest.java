@@ -14,7 +14,7 @@ import net.serenitybdd.screenplay.Ability;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.RefersToActor;
 
-public class AbilityAsTest {
+public class SafeAbilityTest {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
@@ -28,18 +28,18 @@ public class AbilityAsTest {
 
     @Test
     public void yieldsAbilityForActor() {
-        final TestAbility ability = AbilityAs.actor(actorWithAbility, TestAbility.class);
+        final TestAbility ability = SafeAbility.as(actorWithAbility, TestAbility.class);
         assertThat(ability, is(notNullValue()));
     }
 
     @Test
     public void failWithExceptionIfActorHasNoAbility() {
-        final String errorMessage = String.format("Actor: %s has no specified ability: %s",
+        final String errorMessage = String.format("Actor: %s has no requested ability: %s",
                 actorWithoutAbility.getName(),
                 TestAbility.class.getSimpleName());
         exceptionRule.expect(AbilityIsAbsentException.class);
         exceptionRule.expectMessage(errorMessage);
-        AbilityAs.actor(actorWithoutAbility, TestAbility.class);
+        SafeAbility.as(actorWithoutAbility, TestAbility.class);
     }
 
     public static class TestAbility implements Ability, RefersToActor {
