@@ -17,11 +17,10 @@ import org.testmy.screenplay.question.QueryData;
 
 public class GlobalActionTest extends DemoTest {
     @Test
-    public void createContactViaGlobalActions () {
+    public void createContactViaGlobalActions() {
         final HasFields ofShape = ofShape(
-            contact(),
-            hasField("LastName", "Test User Last Name")
-        );
+                contact(),
+                hasField("LastName", "Test User Last Name"));
 
         givenThat(demoActor).wasAbleTo(Login.withSessionIdInFrontDoorUrl());
 
