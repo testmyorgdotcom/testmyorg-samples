@@ -30,9 +30,9 @@ public abstract class DemoTest {
         admin = Actor.named("Admin");
         givenThat(admin).has(PersonaBehaviour.of("Admin"));
         and(admin)
-            .can(Authenticate.withCredentials())
-            .can(Call.partnerApi())
-            .wasAbleTo(Login.viaAPI());;
+                .can(Authenticate.withCredentials())
+                .can(Call.partnerApi())
+                .wasAbleTo(Login.viaAPI());;
 
         demoActor = Actor.named("Jane");
         givenThat(demoActor).has(PersonaBehaviour.of("Sales Manager"));
@@ -41,8 +41,9 @@ public abstract class DemoTest {
                 .can(Call.partnerApi())
                 .can(BrowseTheWeb.with(browser));
     }
+
     @After
     public void after() {
         admin.attemptsTo(CleanData.afterTest());
-    }    
+    }
 }
