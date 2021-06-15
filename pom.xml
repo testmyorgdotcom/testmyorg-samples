@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.testmyorg.samples</groupId>
+    <artifactId>samples-salesforce</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>Business Testing Examples</name>
+
+    <properties>
+        <!-- configuration -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+        <code.style.version>1.0-SNAPSHOT</code.style.version>
+
+		<!-- plugins -->
+        <maven.dependency.version>3.1.2</maven.dependency.version>
+        <maven.failsafe.version>3.0.0-M5</maven.failsafe.version>
+		<maven.source.version>3.2.0</maven.source.version>
+        <maven.surefire.version>3.0.0-M5</maven.surefire.version>
+        <net.revelc.code.formatter.version>2.15.0</net.revelc.code.formatter.version>
+
+        <!-- framework dependencies versions -->
+		<salesforce.partnerapi.version>51.2.0</salesforce.partnerapi.version>
+		<serenity.version>2.4.1</serenity.version>
+        <testmyorg.version>1.1-SNAPSHOT</testmyorg.version>
+
+        <!-- framework provided dependencies versions -->
+
+        <!-- test dependencies versions -->
+        <junit.version>4.12</junit.version>
+		<slf4j.version>1.7.30</slf4j.version>
+	</properties>
+
+    <dependencies>
+        <!-- test dependencies -->
+        <dependency>
+			<groupId>com.force.api</groupId>
+            <artifactId>force-partner-api</artifactId>
+            <version>${salesforce.partnerapi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.testmy.core</groupId>
+            <artifactId>testmyorg-core</artifactId>
+            <version>${testmyorg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-junit</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven.dependency.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven.failsafe.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			   </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>net.revelc.code.formatter</groupId>
+				<artifactId>formatter-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+						<configuration>
+							<configFile>test-my-org-checkstyle.xml</configFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>net.revelc.code.formatter</groupId>
+					<artifactId>formatter-maven-plugin</artifactId>
+					<version>${net.revelc.code.formatter.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.testmy.tools</groupId>
+							<artifactId>formatter-java</artifactId>
+							<version>${code.style.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>    
+</project>
