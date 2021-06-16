@@ -86,6 +86,6 @@ public class CreateDataViaAPITest {
                 hasRecordTypeName("Utility_Opportunity"));
         when(jane).attemptsTo(CreateData.record(opportunityWithRecordType));
 
-        then(admin).should(seeThat(QueryData.similarTo(opportunityWithRecordType), is(notNullValue())));
+        then(jane).should(seeThat(QueryData.similarTo(opportunityWithRecordType), is(notNullValue())));
     }
 }

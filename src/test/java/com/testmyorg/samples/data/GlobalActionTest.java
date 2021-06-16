@@ -21,7 +21,6 @@ import org.testmy.config.Config;
 import org.testmy.data.TestDataManager;
 import org.testmy.data.matchers.HasFields;
 import org.testmy.screenplay.act.CleanData;
-import org.testmy.screenplay.act.task.PopulateComposer;
 import org.testmy.screenplay.act.task.StoreObjectAtScene;
 import org.testmy.screenplay.factory.KeyboardShortcuts;
 import org.testmy.screenplay.factory.Login;
@@ -29,9 +28,8 @@ import org.testmy.screenplay.factory.ability.Authenticate;
 import org.testmy.screenplay.factory.ability.Call;
 import org.testmy.screenplay.question.QueryData;
 import org.testmy.screenplay.ui.GlobalActions;
-import org.testmy.screenplay.ui.NewContact.LastName;
-import org.testmy.screenplay.ui.global.composer.NewContact;
 import org.testmy.screenplay.ui.Toast;
+import org.testmy.screenplay.ui.global.composer.NewContact;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.screenplay.Actor;
@@ -76,24 +74,24 @@ public class GlobalActionTest {
         // when(admin).attemptsTo(CreateRecord.viaGlobalAction(Config.GLOBAL_ACTION_NEW_CONTACT).of(contactShape));
         final SObject sObject = new TestDataManager().constructSObject(contactShape);
         when(admin).attemptsTo(
-            Click.on(GlobalActions.createButton()),
-            WaitUntil.the(GlobalActions.createMenuList(), isVisible()),
-            Click.on(GlobalActions.createMenuListItem(Config.GLOBAL_ACTION_NEW_CONTACT)),
-            WaitUntil.the(GlobalActions.form(Config.GLOBAL_ACTION_NEW_CONTACT), isVisible()),
-            
-            // PopulateComposer.from(contactShape),
-            Check.whether(sObject.getField("LastName") != null)
-                .andIfSo(SendKeys.of(sObject.getField("LastName").toString()).into(NewContact.lastName())),
-            Check.whether(sObject.getField("FirstName") != null)
-                .andIfSo(SendKeys.of(sObject.getField("FirstName").toString()).into(NewContact.firstName())),
-            Check.whether(sObject.getField("Email") != null)
-                .andIfSo(SendKeys.of(sObject.getField("Email").toString()).into(NewContact.email())),
-            Check.whether(sObject.getField("Phone") != null)
-                .andIfSo(SendKeys.of(sObject.getField("Phone").toString()).into(NewContact.phone())),
-            KeyboardShortcuts.save(),
-            WaitUntil.the(Toast.success(), isVisible()),
-            Click.on(Toast.objectName()),
-            StoreObjectAtScene.intoDataCache());
+                Click.on(GlobalActions.createButton()),
+                WaitUntil.the(GlobalActions.createMenuList(), isVisible()),
+                Click.on(GlobalActions.createMenuListItem(Config.GLOBAL_ACTION_NEW_CONTACT)),
+                WaitUntil.the(GlobalActions.form(Config.GLOBAL_ACTION_NEW_CONTACT), isVisible()),
+
+                // PopulateComposer.from(contactShape),
+                Check.whether(sObject.getField("LastName") != null)
+                        .andIfSo(SendKeys.of(sObject.getField("LastName").toString()).into(NewContact.lastName())),
+                Check.whether(sObject.getField("FirstName") != null)
+                        .andIfSo(SendKeys.of(sObject.getField("FirstName").toString()).into(NewContact.firstName())),
+                Check.whether(sObject.getField("Email") != null)
+                        .andIfSo(SendKeys.of(sObject.getField("Email").toString()).into(NewContact.email())),
+                Check.whether(sObject.getField("Phone") != null)
+                        .andIfSo(SendKeys.of(sObject.getField("Phone").toString()).into(NewContact.phone())),
+                KeyboardShortcuts.save(),
+                WaitUntil.the(Toast.success(), isVisible()),
+                Click.on(Toast.objectName()),
+                StoreObjectAtScene.intoDataCache());
 
         then(admin).should(seeThat(QueryData.similarTo(contactShape), hasId()));
     }
