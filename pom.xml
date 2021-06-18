@@ -30,7 +30,7 @@
         <!-- framework provided dependencies versions -->
 
         <!-- test dependencies versions -->
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
 		<slf4j.version>1.7.30</slf4j.version>
 	</properties>
 
